@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 0px">
     <v-container fluid>
       <template>
         <v-stepper v-model="e1">
@@ -183,11 +183,46 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
-              <v-card
-                class="mb-12"
-                color="grey lighten-1"
-                height="200px"
-              ></v-card>
+              <v-card class="mb-12">
+                <v-card>
+                  <div class="d-flex ma-10 align-center justify-center">
+                      <div class="d-flex flex-column align-center">
+                          <v-img width="150" src="/images/experts.png"></v-img>
+                          <div>Experts</div>
+                      </div>
+                      <div style="min-width: 50%">
+                          <v-slider
+                              v-model="percentageE"
+                              class="mx-10 mt-6"
+                              step="1"
+                              max="100"
+                              color="blue-lighten-1"
+                              track-color="blue-lighten-1"
+                          />
+                      </div>
+                      <div>
+                          <h2>{{percentageE}}%</h2>
+                      </div>
+                  </div>
+                  <div class="d-flex ma-10 align-center justify-center">
+                          <div class="d-flex flex-column align-center">
+                              <v-img width="150" src="/images/end-users.png"></v-img>
+                              <div>End users</div>
+                          </div>
+                          <div style="min-width: 50%">
+                              <v-slider
+                                v-model="percentageU"
+                                class="mx-10 mt-6"
+                                step="2"
+                                max="100"
+                                color="blue-lighten-1"
+                                track-color="blue-lighten-1"
+                              />
+                          </div>
+                          <div><h2>{{percentageU}}%</h2></div> 
+                      </div>
+              </v-card>
+              </v-card>
 
               <div style="text-align: end">
                 <v-btn style="margin-right: 20px" @click="e1 = 3">Return</v-btn>
@@ -196,11 +231,33 @@
             </v-stepper-content>
 
             <v-stepper-content step="5">
-              <v-card
-                class="mb-12"
-                color="grey lighten-1"
-                height="200px"
-              ></v-card>
+              <v-card class="mb-12">
+                <div class="d-flex align-content-space-evenly">
+                    <v-col v-for="(v, k) of groupedRoles" :key="k">
+                      <v-list>
+                        <v-list-item
+                          v-for="e in v"
+                          :key="e.id"
+                          :title="e.title"
+                          :subtitle="e.subtitle"
+                          :active="selectedRoles.has(e.id)"
+                          class="ma-1 rounded"
+                          variant="elevated"
+                          :color="roleCategoriesMap[e.category].color"
+                          @click="updateRoles(e.id)"
+                        >
+                          <v-list-item-icon>
+                            <img style="height: 100px" :src="e.icon" />
+                          </v-list-item-icon>
+                          <v-list-item-title>{{e.title}}
+                            <v-list-item-subtitle>{{e.subtitle}}</v-list-item-subtitle>
+                          </v-list-item-title>
+                          
+                        </v-list-item>
+                      </v-list>
+                    </v-col>
+                </div>
+            </v-card>
 
               <div style="text-align: end">
                 <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
@@ -209,15 +266,39 @@
             </v-stepper-content>
 
             <v-stepper-content step="6">
-              <v-card
-                class="mb-12"
-                color="grey lighten-1"
-                height="200px"
-              ></v-card>
+              <v-card class="mb-12">
+                <v-slider
+                  v-model="sliderSpeak"
+                  prepend-icon="mdi-volume-high"
+                  step="1"
+                  max="100"
+                  color="yellow"
+                  track-color="grey"
+                  label="Speak"
+                ></v-slider>
+                <v-slider
+                  v-model="sliderTouch"
+                  prepend-icon="mdi-volume-high"
+                  step="1"
+                  max="100"
+                  color="green"
+                  track-color="grey"
+                  label="Touch"
+                ></v-slider>
+                <v-slider
+                  v-model="sliderHear"
+                  prepend-icon="mdi-volume-high"
+                  step="1"
+                  max="100"
+                  color="blue"
+                  track-color="grey"
+                  label="Hear"
+                ></v-slider>
+              </v-card>
 
               <div style="text-align: end">
                 <v-btn style="margin-right: 20px" @click="e1 = 5">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 1">Next</v-btn>
+                <v-btn color="primary" @click="e1 = 1">Save</v-btn>
               </div>
             </v-stepper-content>
           </v-stepper-items>
@@ -263,6 +344,24 @@ export default {
     //   // this.evaluationCriteria.filter(e => this.selected2.value.includes(e.alias));
     //   return result;
     // },
+    groupedRoles(){
+      let acc = this.roles.reduce((acc, curr) => {
+        if (!(curr.category in acc)) {
+            acc[curr.category] = [];
+        }
+        acc[curr.category].push(curr);
+        return acc;
+      }, {})
+      return acc;
+    },
+    roleCategoriesMap(){
+      let acc = this.roleCategories.reduce((acc, curr) => {
+          acc[curr.id] = curr;
+          return acc;
+      }, {})
+      return acc;
+    }
+        
   },
   components: {},
   watch: {
@@ -409,6 +508,124 @@ export default {
         },
       ],
       values: [],
+      percentageE: 50,
+      percentageU: 50,
+      roles: [
+        {
+          id: 1,
+          title: 'Blind',
+          subtitle: 'Permanent visual impairment.',
+          category: 1,
+          icon: '/images/blind.png'
+        },
+        {
+          id: 2,
+          title: 'One arm',
+          subtitle: 'Permanent visual impairment.',
+          category: 2,
+          icon: '/images/one-arm.png'
+        },
+        {
+          id: 3,
+          title: 'Deaf',
+          subtitle: 'Situationaly visual impairment ',
+          category: 3,
+          icon: '/images/deaf.png'
+        },
+        {
+          id: 4,
+          title: 'Non verbal',
+          subtitle: 'Situationaly visual impairment ',
+          category: 4,
+          icon: '/images/non-verbal.png'
+        },
+        {
+          id: 5,
+          title: 'Cataratas',
+          subtitle: 'Permanent visual impairment.',
+          category: 1,
+          icon: '/images/cataratas.png'
+        },
+        {
+          id: 6,
+          title: 'Arm injury',
+          subtitle: 'Permanent visual impairment.',
+          category: 2,
+          icon: '/images/arm-injury.png'
+        },
+        {
+          id: 7,
+          title: 'Ear infection',
+          subtitle: 'Permanent visual impairment.',
+          category: 3,
+          icon: '/images/ear-infection.png'
+        },
+        {
+          id: 8,
+          title: 'Laryngitis',
+          subtitle: 'Permanent visual impairment.',
+          category: 4,
+          icon: '/images/laryngitis.png'
+        },
+        {
+          id: 9,
+          title: 'Distracted',
+          subtitle: 'Permanent visual impairment.',
+          category: 1,
+          icon: '/images/distracted.png'
+        },
+        {
+          id: 10,
+          title: 'New parent',
+          subtitle: 'Permanent visual impairment.',
+          category: 2,
+          icon: '/images/new-parent.png'
+        },
+        {
+          id: 11,
+          title: 'Bartender',
+          subtitle: 'Permanent visual impairment.',
+          category: 3,
+          icon: '/images/bartender.png'
+        },
+        {
+          id: 12,
+          title: 'Heavy accent',
+          subtitle: 'Permanent visual impairment.',
+          category: 4,
+          icon: '/images/heavy-accent.png'
+        }
+      ],
+      roleCategories: [
+        {
+            id: 1,
+            title: 'see',
+            icon: 'visibility_off',
+            color: 'red'
+        },
+        {
+            id: 2,
+            title: 'touch',
+            icon: 'personal_injury',
+            color: 'green'
+        },
+        {
+            id: 3,
+            title: 'hear',
+            icon: 'hearing_disabled',
+            color: 'blue'
+        },
+        {
+            id: 4,
+            title: 'speak',
+            icon: 'voice_over_off',
+            color: 'yellow'
+        }
+      ],
+      selectedRoles: new Set(),
+      sliderSpeak: 50,
+      sliderTouch: 50,
+      sliderHear: 50,
     };
   },
   methods: {
@@ -547,6 +764,18 @@ export default {
       this.values[x][y] = value;
       this.values[y][x] = value;
     },
+
+    // ------------- STEP 5
+    updateRoles(id) {
+      this.selectedRoles.has(id) ? this.selectedRoles.delete(id) : this.selectedRoles.add(id);
+      console.log(this.selectedRoles);
+    }
   },
 };
 </script>
+
+<style scoped>
+.container{
+  max-width: 100% !important;
+}
+</style>
