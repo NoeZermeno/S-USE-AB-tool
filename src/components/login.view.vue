@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app style="width: 80%; margin: auto" id="inspire">
     <v-main>
       <v-container fluid fill-height>
         <v-layout align-center justify-center>

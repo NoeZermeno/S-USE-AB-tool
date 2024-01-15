@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 0px">
+  <div>
     <v-container fluid>
       <template>
         <v-stepper v-model="e1">
@@ -232,42 +232,63 @@
 
             <v-stepper-content step="5">
               <v-card class="mb-12">
-                <div class="d-flex align-content-space-evenly">
-                    <v-col v-for="(v, k) of groupedRoles" :key="k">
-                      <v-list>
-                        <v-list-item
-                          v-for="e in v"
-                          :key="e.id"
-                          :title="e.title"
-                          :subtitle="e.subtitle"
-                          :active="selectedRoles.has(e.id)"
-                          class="ma-1 rounded"
-                          variant="elevated"
-                          :color="roleCategoriesMap[e.category].color"
-                          @click="updateRoles(e.id)"
-                        >
-                          <v-list-item-icon>
-                            <img style="height: 100px" :src="e.icon" />
-                          </v-list-item-icon>
-                          <v-list-item-title>{{e.title}}
-                            <v-list-item-subtitle>{{e.subtitle}}</v-list-item-subtitle>
-                          </v-list-item-title>
-                          
-                        </v-list-item>
-                      </v-list>
-                    </v-col>
+                <div class="d-flex flex-wrap align-content-space-evenly">
+                    <v-list>
+                      <v-list-item-group v-model="selectedRoles" multiple>
+                          <v-row >
+                            <v-col v-for="(v, k) of groupedRoles" :key="k" sm="3" md="3" lg="3">
+                              <h4 style="text-align: center">{{headersRoles[k-1]}}</h4>
+                              <template v-for="e in v">
+                                <v-list-item
+                                  :key="e.id"
+                                  variant="elevated"
+                                  :color="roleCategoriesMap[e.category].color"
+                                  @click="setRolesInfo(e)"
+                                >
+                                  <v-list-item-icon>
+                                    <img style="height: 100px" :src="e.icon" />
+                                  </v-list-item-icon>
+                                  <v-list-item-title>{{e.title}}
+                                    <v-list-item-subtitle>{{e.subtitle}}</v-list-item-subtitle>
+                                  </v-list-item-title>
+                                  
+                                </v-list-item>
+                              </template>
+                            </v-col>
+                          </v-row>
+                        
+                      </v-list-item-group>
+                    </v-list>
                 </div>
             </v-card>
 
               <div style="text-align: end">
                 <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 6">Next</v-btn>
+                <v-btn :color="colorStep5()" @click="validaStep5()">Next</v-btn>
               </div>
             </v-stepper-content>
 
             <v-stepper-content step="6">
               <v-card class="mb-12">
-                <v-slider
+                <v-card class="d-flex flex-wrap align-center">
+                    <div style="width:100%" v-for="(v, i) in categoriesSelected" :key="i" class="w-50 pa-2">
+                        <v-card class="d-flex pa-2 align-center justify-space-between">
+                            <v-slider
+                                class="w-75"
+                                v-model="v.value"
+                                :prepend-icon="v.icon"
+                                :color="v.color"
+                                :label="v.title"
+                                step="1"
+                                max="100"
+                                track-color="grey"
+                                @change="slidersValue(v)"
+                            >
+                            </v-slider>
+                        </v-card>
+                    </div>
+                </v-card>
+                <!-- <v-slider
                   v-model="sliderSpeak"
                   prepend-icon="mdi-volume-high"
                   step="1"
@@ -293,12 +314,12 @@
                   color="blue"
                   track-color="grey"
                   label="Hear"
-                ></v-slider>
+                ></v-slider> -->
               </v-card>
 
               <div style="text-align: end">
                 <v-btn style="margin-right: 20px" @click="e1 = 5">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 1">Save</v-btn>
+                <v-btn color="primary" @click="e1 = 1">Finish</v-btn>
               </div>
             </v-stepper-content>
           </v-stepper-items>
@@ -599,33 +620,36 @@ export default {
       roleCategories: [
         {
             id: 1,
-            title: 'see',
-            icon: 'visibility_off',
+            title: 'See',
+            icon: 'mdi mdi-eye-off',
             color: 'red'
         },
         {
             id: 2,
-            title: 'touch',
-            icon: 'personal_injury',
+            title: 'Touch',
+            icon: 'mdi mdi-account-injury',
             color: 'green'
         },
         {
             id: 3,
-            title: 'hear',
-            icon: 'hearing_disabled',
+            title: 'Hear',
+            icon: 'mdi mdi-ear-hearing-off',
             color: 'blue'
         },
         {
             id: 4,
-            title: 'speak',
-            icon: 'voice_over_off',
+            title: 'Speak',
+            icon: 'mdi mdi-account-voice-off',
             color: 'yellow'
         }
       ],
-      selectedRoles: new Set(),
+      selectedRoles: [],
+      selectedRolesInfo: [],
       sliderSpeak: 50,
       sliderTouch: 50,
       sliderHear: 50,
+      headersRoles: [ "See", "Toch", "Hear", "Speak"],
+      categoriesSelected: [],
     };
   },
   methods: {
@@ -766,16 +790,36 @@ export default {
     },
 
     // ------------- STEP 5
-    updateRoles(id) {
-      this.selectedRoles.has(id) ? this.selectedRoles.delete(id) : this.selectedRoles.add(id);
-      console.log(this.selectedRoles);
-    }
+    colorStep5() {
+      if (this.selectedRoles.length >= 2) {
+        return "primary"
+      }else{
+        return "gray"
+      }
+    },
+    setRolesInfo(e){
+      const index = this.selectedRolesInfo.findIndex(i => i.id == e.id);
+      if(index > -1) this.selectedRolesInfo.splice(index, 1)
+      else this.selectedRolesInfo.push(e)
+    },
+    validaStep5(){
+      if (this.selectedRolesInfo.length >= 2) {
+        this.categoriesSelected = [];
+        for (let i = 0; i < this.selectedRolesInfo.length; i++) {
+          const idCategory = this.roles[this.selectedRolesInfo[i].id-1].category;
+          const category = this.roleCategories.find(c => c.id == idCategory)
+          category.value = 0;
+          const found = this.categoriesSelected.some(c => c.id === category.id);
+          if (!found) this.categoriesSelected.push(category);
+        }
+        this.e1 = 6;
+      }else alert("At least two alternatives must be selected");
+    },
+
+    // ------------- STEP 6
+    slidersValue(value){
+      console.log(value);
+    },
   },
 };
 </script>
-
-<style scoped>
-.container{
-  max-width: 100% !important;
-}
-</style>

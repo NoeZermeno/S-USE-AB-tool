@@ -8,3 +8,8 @@ export default {
 };
 </script>
 
+<style lang="postcss" scoped>
+/deep/ .container{
+    max-width: 100% !important;
+  }
+</style>

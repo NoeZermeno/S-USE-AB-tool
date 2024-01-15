@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 80%; margin: auto">
     <v-container fluid>
       <v-card :loading="loading" >
         <v-system-bar><v-spacer></v-spacer><b>Roles</b><v-spacer></v-spacer></v-system-bar>
