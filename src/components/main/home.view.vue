@@ -53,7 +53,7 @@ export default {
         {route:'/reports',title:'Reports'}
     ],
   }),
-    async created() {
+  async created() {
     
     if (sessionStorage.getItem("token")) this.$store.dispatch("setSessionToken", sessionStorage.getItem("token"));
     if (localStorage.getItem("token")) this.$store.dispatch("setSessionToken", localStorage.getItem("token"));   

@@ -118,7 +118,7 @@ export default {
         }
           const serverResponse = await service(data);
           this.loading = false;
-          console.log(serverResponse);
+          // console.log(serverResponse);
            if(serverResponse.status == 'error') alert(`${serverResponse.message}`);
            if(serverResponse.status == 'success') {
               this.$store.dispatch("setSessionToken", serverResponse.ari_dasci_uid);

@@ -124,7 +124,7 @@ export default {
           //  if(serverResponse.status == 'error') alert(`${serverResponse.message}`); //TODO --> REVISAR QUE FUNCIONE ESTE ERROR
           //   else this.usuarios = serverResponse
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         this.loading = false;
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
@@ -159,7 +159,7 @@ export default {
           let index = this.data1.findIndex(x=>x.id==item.id)
           if (index >= 0) this.usuarios.splice(index, 1);
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           this.loading = false;
         }
       } else {

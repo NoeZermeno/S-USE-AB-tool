@@ -31,6 +31,11 @@ export default new Router({
         { path: '/reports',name: 'reports', component: ReportsView },
         { path: '/test', name:'tests', component: TestView }
       ]
-    }
+    },
+    {
+      //Cualquier ruta que no exista, se redireccionará al home
+      path: '*',
+      redirect: '/home',
+  }
   ],
 });

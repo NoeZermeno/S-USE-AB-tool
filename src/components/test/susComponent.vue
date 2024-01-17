@@ -26,27 +26,21 @@
       >
          <template v-slot:body="{ items }">
             <tbody>
-                <tr v-for="(item, index) in items" :key="`item-${index}`">
+                <tr v-for="(item, index) in items" :key="`item-${index}`" style="height:100px;">
                 <td style="text-align: center; width: 10px">
                     {{item.number}}
                 </td>
                 <td style=" width:400px">
                     {{ item.question }}
                 </td>
-                <td style="text-align: center; width: 10px">
-                  <v-checkbox disabled v-model="item.op1"></v-checkbox>
-                </td>
-                  <td style="text-align: center; width: 10px">
-                  <v-checkbox disabled v-model="item.op2"></v-checkbox>
-                </td>
-                  <td style="text-align: center; width: 10px">
-                  <v-checkbox disabled v-model="item.op3"></v-checkbox>
-                </td>
-                  <td style="text-align: center; width: 10px">
-                  <v-checkbox disabled v-model="item.op4"></v-checkbox>
-                </td>
-                  <td style="text-align: center; width: 10px">
-                  <v-checkbox disabled v-model="item.op5"></v-checkbox>
+                <td style="text-align: center;">
+                <v-btn-toggle v-model="item.op" color="primary">
+                  <v-btn> <v-icon>mdi-numeric-1-box-outline</v-icon></v-btn>
+                  <v-btn> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
+                  <v-btn> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
+                  <v-btn> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
+                  <v-btn> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
+                </v-btn-toggle>
                 </td>
                 </tr>
             </tbody>
@@ -70,103 +64,59 @@ export default {
       headers: [
         { text: "", value: "number", sortable:false },
         { text: "question", value: "question", align: "center",sortable:false },
-        { text: "1", value: "op1", sortable:false },
-        { text: "2", value: "op2", sortable:false },
-        { text: "3", value: "op3", sortable:false },
-        { text: "4", value: "op4", sortable:false },
-        { text: "5", value: "op5", sortable:false }
+        { text: "", value: "op", sortable:false },
        
       ],
       data: [
         {
           number: "1",
           question:"I think that I would like to use this sytem frequently.",
-          op1: true,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+          op:undefined,
         },
         {
            number: "2",
           question:"I found the system unnecessarily complex.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+          op:undefined,
         },
         {
            number: "3",
           question:"I thought the system was easy to use.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+          op:undefined,
         },
         {
            number: "4",
           question:" I think that I would need the support of a technical person to be able to use this system.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+          op:undefined,
         },
         {
           number: "5",
           question:"I found the various functions in this system were well integrated.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+          op:undefined,
         },
         {
           number: "6",
           question:"I thought there was too much inconsistency in this system.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+         op:undefined,
         },
         {
           number: "7",
           question:"I would imagine that most people would learn to use this system very quickly.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+          op:undefined,
         },
         {
           number: "8",
           question:"I found the system very awkward to use.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+         op:undefined,
         },
         {
           number: "9",
           question:"I felt very confident using the system.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+         op:undefined,
         },
         {
           number: "10",
           question:"I needed to learn a lot of things before I could get going with this system.",
-          op1: false,
-          op2:false,
-          op3:false,
-          op4:false,
-          op5:false,
+         op:undefined,
         }
       ],
     };

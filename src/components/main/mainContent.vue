@@ -5,10 +5,10 @@
         <!-- <div class="triangulo-equilatero-bottom-left"> -->
         <!-- </div> -->
         <v-row no-gutters style="max-height: 400px; " :class="[height>0? 'ma-10':'ma-5']">
-          <!-- <v-col cols="12" md="6" lg="6" xl="6" class="d-flex justify-center flex-column">
+          <v-col cols="12" md="6" lg="6" xl="6" class="d-flex justify-center flex-column">
             <h1 :class="[height>1? 'display-2':'overline']">welcome</h1><br v-if="height>1">
            
-          </v-col> -->
+          </v-col>
          
         </v-row>
       </v-card>

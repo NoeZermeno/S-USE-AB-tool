@@ -104,7 +104,7 @@ export default {
            if(serverResponse.status == 'error') alert(`${serverResponse.message}`); //TODO --> REVISAR QUE FUNCIONE ESTE ERROR
             else this.projects = serverResponse
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         this.loading = false;
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
@@ -127,7 +127,7 @@ export default {
           let index = this.projects.findIndex(x=>x.id==id)
           if (index >= 0) this.projects.splice(index, 1);
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           this.loading = false;
         }
       } else {

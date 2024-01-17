@@ -28,7 +28,6 @@
                 </v-row >
                 <v-row no-gutters>
                     <v-col cols="12">
-                        
                         <v-text-field v-model="title" label="Title" required :rules="codeAndNameRules"></v-text-field>
                     </v-col>
                 </v-row> 
@@ -61,8 +60,6 @@
                             </v-btn></v-date-picker>
                     </v-menu>
                 </v-row>
-
-                       
                 <v-row>
                      <p class="errorMessage">{{ errorMessage }}</p>
                 </v-row>
@@ -135,7 +132,7 @@ export default {
                 }
                 const serverResponse = await serviceToken(data);
                 this.loading = false;
-                console.log(serverResponse);
+                // console.log(serverResponse);
                 if(serverResponse.status == 'error') alert(`${serverResponse.message}`);
                 if(serverResponse.status == 'success') {
                     this.$emit('update')
@@ -143,7 +140,7 @@ export default {
                     }
             
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 this.loading = false;
             }
           

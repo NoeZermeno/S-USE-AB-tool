@@ -20,7 +20,14 @@
        <v-row align="center" justify="center">
        <v-card width="800px">
         <v-container>
-        <v-checkbox disabled label="A, AA, AAA "></v-checkbox>
+        <v-radio-group v-model="value">
+          <v-radio
+            v-for="(n,index) in array"
+            :key="n"
+            :label="`${array[index]}`"
+            :value="n"
+          ></v-radio>
+        </v-radio-group>
         </v-container>
        </v-card>
        </v-row>
@@ -31,14 +38,14 @@
 </template>
 <script>
 export default {
-  name: "dataView",
+  name: "acc",
   props: ["mostrar"],
 
   data() {
     return {
       loading: false,
-      rules: [v => v.length <= 250 || 'Max 250 characters'],
-      value: '',
+      value: 'A',
+      array: ['A', 'AA', 'AAA'],
     };
   },
   computed: {},

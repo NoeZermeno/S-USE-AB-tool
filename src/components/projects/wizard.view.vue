@@ -667,7 +667,7 @@ export default {
         //TODO --> REVISAR QUE FUNCIONE ESTE ERROR
         else this.projects = serverResponse;
       } catch (error) {
-        console.log(error);
+        // console.log(error);
         this.loading = false;
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
@@ -719,7 +719,7 @@ export default {
           let index = this.data1.findIndex((x) => x.id == item.id);
           if (index >= 0) this.data1.splice(index, 1);
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           this.loading = false;
         }
       } else {
@@ -774,7 +774,7 @@ export default {
           let index = this.data2.findIndex((x) => x.id == item.id);
           if (index >= 0) this.data2.splice(index, 1);
         } catch (error) {
-          console.log(error);
+          // console.log(error);
           this.loading = false;
         }
       } else {

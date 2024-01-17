@@ -8,7 +8,7 @@
           <v-col cols="12">
             <v-text-field
               v-model="nombre"
-              label="Nombre"
+              label="Name"
               color="blue-grey"
               outlined
               dense
@@ -56,12 +56,6 @@ import {  serviceToken } from "../../helpers/service.service"
 export default {
   props: ["mostrar","usuario" ],
   computed: {
-    blockAceptar() {
-      if (this.loading ) return true;
-      if (this.nombreErrors.length == 0) return true;
-      if (this.passwordErrors.length > 0) return true;
-      return false;
-    },
   },
   data() {
     return {
@@ -90,7 +84,7 @@ export default {
           }
           const serverResponse = await serviceToken(data);
           this.loading = false;
-          console.log(serverResponse);
+          // console.log(serverResponse);
           if(serverResponse.status == 'error') alert(`${serverResponse.message}`);
           if(serverResponse.status == 'success') {
               this.$emit('update')
@@ -98,7 +92,7 @@ export default {
               }
       
       } catch (error) {
-          console.log(error);
+          // console.log(error);
           this.loading = false;
       }
           
