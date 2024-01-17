@@ -80,6 +80,10 @@ export default {
            }
         } catch (error) {
           this.loading = false;
+          localStorage.removeItem("token");
+          sessionStorage.removeItem("token");
+          this.$store.dispatch("setSessionToken", null);
+          this.$router.push("/login");
         }
     },
   },

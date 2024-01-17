@@ -9,6 +9,7 @@ const WizardView = () => import("@/components/projects/wizard.view.vue")
 const UsersView = () => import("@/components/users/users.view.vue")
 const RolesView = () => import("@/components/roles/roles.view.vue")
 const ReportsView = () => import("@/components/reports/reports.view.vue")
+const TestView = () => import("@/components/test/tests.view.vue")
 Vue.use(Router);
 
 export default new Router({
@@ -28,6 +29,7 @@ export default new Router({
         { path: '/users',name: 'users', component: UsersView },
         { path: '/roles',name: 'roles', component: RolesView },
         { path: '/reports',name: 'reports', component: ReportsView },
+        { path: '/test', name:'tests', component: TestView }
       ]
     }
   ],

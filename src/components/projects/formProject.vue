@@ -29,7 +29,7 @@
                 <v-row no-gutters>
                     <v-col cols="12">
                         
-                        <v-text-field v-model="title" label="Nombre" required :rules="codeAndNameRules"></v-text-field>
+                        <v-text-field v-model="title" label="Title" required :rules="codeAndNameRules"></v-text-field>
                     </v-col>
                 </v-row> 
                 <v-row no-gutters>
@@ -94,10 +94,9 @@ export default {
             valid: false,
             hoy: new Date().toISOString().slice(0,10),
             title: '',
-            // temp:'',
             fecha:'',
             codeAndNameRules: [
-                v => !!v || 'Campo Requerido',
+                v => !!v || 'Required',
             ],
             errores: [],
             errorMessage: "",

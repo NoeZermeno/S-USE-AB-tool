@@ -6,7 +6,7 @@
           <v-flex xs12 sm7 md5>
             <v-form v-on:submit.prevent>
               <v-card class="elevation-12" :loading="enviando">
-                <v-toolbar dense dark color="#001d35">
+                <v-toolbar dense dark color="primary">
                   <v-spacer></v-spacer>
                   <v-toolbar-title class="text-md-center">Register</v-toolbar-title>
                   <v-spacer></v-spacer>
@@ -65,12 +65,8 @@
                     label="Organization"
                    
                 ></v-text-field>
-
-
-                      <p class="errorMessage">{{ errorMessage }}</p>
-                      
-  
-                      <v-btn type="submit" color="#001d35" @click="submit()" dark :disabled="enviando">save</v-btn>
+                      <p class="errorMessage">{{ errorMessage }}</p>|
+                      <v-btn type="submit" color="primary" @click="submit()" dark :disabled="enviando">save</v-btn>
              </v-col>
                     
                   </v-row>

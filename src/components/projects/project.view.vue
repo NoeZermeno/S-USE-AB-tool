@@ -14,7 +14,7 @@
         </v-col>
       </v-row>
       
-        <v-row align="center" justify="center">
+      <v-row align="center" justify="center">
         <v-col
           v-for="(variant, i) in proyectosList"
           :key="i"
@@ -47,10 +47,7 @@
        
       </v-col>
     </v-row>
-
-  
-    
-      </v-card>
+    </v-card>
     </v-container>
     <form-project
       v-if="agregar"

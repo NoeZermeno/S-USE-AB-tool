@@ -4,12 +4,14 @@
       <v-toolbar
         dark
         color="primary"
-        style="display: flex; justify-content: center"
+        
       >
-        <v-toolbar-title>Test</v-toolbar-title>
-        <!-- <v-btn style="margin-rigth: 0px" icon dark @click="$emit('cancelar')">
-            <v-icon>mdi-close</v-icon>
-        </v-btn> -->
+        <v-btn icon dark @click="$emit('cancelar')">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-spacer></v-spacer>
+        <v-toolbar-title style="text-align: center;">Test</v-toolbar-title>
+        <v-spacer></v-spacer>
       </v-toolbar>
       <div style="text-align: center">
         <h3>CULagos</h3>
@@ -37,18 +39,6 @@
                 <p>2</p>
             </v-list-item-action>
         </v-list-item>
-      <v-card-actions class="justify-end">
-        <v-spacer></v-spacer>
-        <v-btn
-          small
-          dark
-          outlined
-          color="primary"
-          class="ml-1"
-          @click="$emit('cancelar')"
-          >Close
-        </v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
