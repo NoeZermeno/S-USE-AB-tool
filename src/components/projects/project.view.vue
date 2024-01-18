@@ -56,9 +56,6 @@
       @update="getProjects()"
       @cancelar="agregar=false, editarProject=null"
       />
-      <!-- :convocatoria="editarConvocatoria" 
-      @actualizarConvocatorias="actualizarConvocatorias"
-      -->
 
   </div>
 </template>
@@ -80,7 +77,6 @@ export default {
   },
   components:{ formProject },
   mounted(){
-
    if(this.sessionToken)  this.getProjects()
   },
   data() {

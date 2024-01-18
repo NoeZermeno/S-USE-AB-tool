@@ -71,7 +71,8 @@ export default {
   },
   created(){
     if(this.usuario) {
-      this.nombre = this.usuario.nombre
+      console.log(this.usuario);
+      this.nombre = this.usuario.name
     }
   },
   methods: {

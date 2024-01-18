@@ -38,7 +38,7 @@
               <tr v-for="(item, index) in items" :key="`item-${index}`">
               <td>{{ item.name }}</td>
               <td>
-                <div style="padding: 10px; display: flex; justify-content: center;">
+                <div style="padding: 10px; display: flex; justify-content: end;">
                 <v-btn icon :disabled="loading" @click="editar(item)"><v-icon small>mdi-pencil</v-icon> </v-btn>
                 <v-btn icon :disabled="loading" @click="eliminar(item)"><v-icon small>mdi-close</v-icon> </v-btn>
                   </div>
@@ -103,7 +103,7 @@ export default {
         na:"N/A",
         headers: [
           { text: "Nombre", value: "name" },
-          { text: "Actions", value: "", align:"center" },
+          { text: "", value: "" },
         ],
         usuarios: [{name:"nombre de prueba"},{name:"nombre de prueba2"}],
         agregar: false,
@@ -165,6 +165,10 @@ export default {
       } else {
         return false;
       }
+    },
+    async editar(item){
+    this.modificarUsuario=item;
+    this.agregar=true
    },
     }
 }

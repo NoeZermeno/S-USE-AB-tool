@@ -23,15 +23,15 @@
           <v-btn-toggle v-model="opcion" color="primary">
             <v-btn> <v-icon>mdi-numeric-1-box-outline</v-icon></v-btn>
             <v-spacer></v-spacer>
-            <v-btn> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-6-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-7-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-8-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-9-box-outline</v-icon></v-btn>
-            <v-btn> <v-icon>mdi-numeric-10-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-6-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-7-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-8-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-9-box-outline</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-10-box-outline</v-icon></v-btn>
           </v-btn-toggle>
         </v-container>
 
@@ -45,7 +45,7 @@
 <script>
 export default {
   name: "nps",
-  props: ["mostrar"],
+  props: ["mostrar","soloLectura"],
 
   data() {
     return {

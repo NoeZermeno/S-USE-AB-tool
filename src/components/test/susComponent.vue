@@ -35,11 +35,11 @@
                 </td>
                 <td style="text-align: center;">
                 <v-btn-toggle v-model="item.op" color="primary">
-                  <v-btn> <v-icon>mdi-numeric-1-box-outline</v-icon></v-btn>
-                  <v-btn> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
-                  <v-btn> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
-                  <v-btn> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
-                  <v-btn> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-1-box-outline</v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
                 </v-btn-toggle>
                 </td>
                 </tr>
@@ -56,7 +56,7 @@
 <script>
 export default {
   name: "dataView",
-  props: ["mostrar"],
+  props: ["mostrar", "soloLectura"],
 
   data() {
     return {

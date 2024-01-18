@@ -20,7 +20,7 @@
        <v-row align="center" justify="center">
        <v-card width="800px">
         <v-container>
-        <v-radio-group v-model="value">
+        <v-radio-group v-model="value" :disabled="soloLectura">
           <v-radio
             v-for="(n,index) in array"
             :key="n"
@@ -39,7 +39,7 @@
 <script>
 export default {
   name: "acc",
-  props: ["mostrar"],
+  props: ["mostrar","soloLectura"],
 
   data() {
     return {

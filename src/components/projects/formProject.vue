@@ -43,7 +43,7 @@
                             <v-text-field v-model="fecha" label="Date" prepend-icon="mdi-calendar" readonly v-bind="attrs" v-on="on"></v-text-field>
                         </template>
                         <v-date-picker  no-title
-                            scrollable v-model="fecha" :min="hoy" ><v-spacer></v-spacer>
+                            scrollable v-model="fecha" ><v-spacer></v-spacer>
                             <v-btn
                                 text
                                 color="primary"
@@ -80,7 +80,7 @@
 <script>
 import {  serviceToken } from "../../helpers/service.service"
 // import { mapGetters } from "vuex";
-import { DateTime } from "luxon";
+// import { DateTime } from "luxon";
 export default {
     name:"form-project",
     props: ["mostrar", "editarProject"],
@@ -111,9 +111,10 @@ export default {
     },
     created() {
         if(this.editarProject){
+            console.log(this.editarProject);
              this.title = this.editarProject.name;
-             this.fecha = DateTime.fromISO(this.editarProject.inicio)
-            //fechaInicio.setZone("America/Mexico_City");
+            var partesFecha = this.editarProject.inicio.split("-");
+            this.fecha = partesFecha[2] + "-" + partesFecha[1] + "-" + partesFecha[0];
         }
     },
     mounted(){
@@ -132,7 +133,7 @@ export default {
                 }
                 const serverResponse = await serviceToken(data);
                 this.loading = false;
-                // console.log(serverResponse);
+                console.log(serverResponse);
                 if(serverResponse.status == 'error') alert(`${serverResponse.message}`);
                 if(serverResponse.status == 'success') {
                     this.$emit('update')

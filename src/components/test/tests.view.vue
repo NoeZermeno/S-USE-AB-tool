@@ -108,15 +108,10 @@
       </v-card>
     </v-container>
 
-    <sus-component v-if="seeSUS" :mostrar="seeSUS" @cancelar="seeSUS = false" />
-    <nps-component v-if="seeNPS" :mostrar="seeNPS" @cancelar="seeNPS = false" />
-    <acc-component v-if="seeACC" :mostrar="seeACC" @cancelar="seeACC = false" />
-    <seeFourComponent
-      v-if="seeFour"
-      :mostrar="seeFour"
-      @cancelar="seeFour = false"
-    />
-
+    <sus-component v-if="seeSUS" :mostrar="seeSUS" :soloLectura="true" @cancelar="seeSUS = false" />
+    <nps-component v-if="seeNPS" :mostrar="seeNPS" :soloLectura="true" @cancelar="seeNPS = false" />
+    <acc-component v-if="seeACC" :mostrar="seeACC" :soloLectura="true" @cancelar="seeACC = false" />
+    <seeFourComponent v-if="seeFour" :mostrar="seeFour" :soloLectura="true" @cancelar="seeFour = false"/>
     <add-component :mostrar="add" @cancelar="add = false" />
   </div>
 </template>

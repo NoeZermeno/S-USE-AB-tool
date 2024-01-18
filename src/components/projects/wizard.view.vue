@@ -1,7 +1,18 @@
 <template>
   <div>
     <v-container fluid>
-      <template>
+      <v-row justify="space-around">
+      <v-card >
+        <v-img
+          height="200px"
+        >
+          <!-- src="https://cdn.vuetifyjs.com/docs/images/cards/purple-flowers.jpg" -->
+          <v-app-bar flat color="rgba(0, 0, 0, 0)">
+            <v-toolbar-title class="text-h6 black--text pl-0">  name of project </v-toolbar-title>  
+          </v-app-bar>
+        </v-img>
+
+      <template >
         <v-stepper v-model="e1">
           <v-stepper-header style="font-size: x-small">
             <v-stepper-step :complete="e1 > 1" step="1">
@@ -12,25 +23,25 @@
               Step 2: Set the criteria
             </v-stepper-step>
             <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 3" step="3">
+            <v-stepper-step :complete="e1 > 2.1" step="2.1">
               Step 2.1: Set the importance of criteria
             </v-stepper-step>
             <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 4" step="4">
+            <v-stepper-step :complete="e1 > 3" step="3">
               Step 3: Set of users
             </v-stepper-step>
             <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 5" step="5">
+            <v-stepper-step :complete="e1 > 4" step="4">
               Step 4: Set of roles
             </v-stepper-step>
             <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 6" step="6">
+            <v-stepper-step :complete="e1 > 4.1" step="4.1">
               Step 4.1: Set the importance of roles
             </v-stepper-step>
           </v-stepper-header>
 
-          <v-stepper-items>
-            <v-stepper-content step="1">
+          <v-stepper-items style="height: 700px;">
+            <v-stepper-content step="1" >
               <v-card class="mb-12">
                 <v-row>
                   <v-col>
@@ -43,6 +54,7 @@
                   </v-col>
                 </v-row>
                 <v-data-table
+                  dense
                   :headers="headers1"
                   :items="data1"
                   item-key="alias"
@@ -81,18 +93,10 @@
                     </tbody>
                   </template>
                 </v-data-table>
-              </v-card>
-
-              <v-row>
-                <v-col>
-                  <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn :color="colorStep1()" @click="validaStep1()"
-                      >Next</v-btn
-                    >
-                  </v-card-actions>
-                </v-col></v-row
-              >
+              </v-card>  
+              <div style="text-align: end">  
+              <v-btn :color="colorStep1()" @click="validaStep1()">Next</v-btn>
+              </div>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -138,7 +142,7 @@
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="3">
+            <v-stepper-content step="2.1">
               <v-card class="mb-12">
                 <v-row>
                   <v-col>
@@ -178,11 +182,11 @@
 
               <div style="text-align: end">
                 <v-btn style="margin-right: 20px" @click="e1 = 2">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 4">Next</v-btn>
+                <v-btn color="primary" @click="e1 = 3">Next</v-btn>
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="4">
+            <v-stepper-content step="3">
               <v-card class="mb-12">
                 <v-card>
                   <div class="d-flex ma-10 align-center justify-center">
@@ -225,12 +229,12 @@
               </v-card>
 
               <div style="text-align: end">
-                <v-btn style="margin-right: 20px" @click="e1 = 3">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 5">Next</v-btn>
+                <v-btn style="margin-right: 20px" @click="e1 = 2.1">Return</v-btn>
+                <v-btn color="primary" @click="e1 = 4">Next</v-btn>
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="5">
+            <v-stepper-content step="4">
               <v-card class="mb-12">
                 <div class="d-flex flex-wrap align-content-space-evenly">
                     <v-list>
@@ -263,12 +267,12 @@
             </v-card>
 
               <div style="text-align: end">
-                <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
+                <v-btn style="margin-right: 20px" @click="e1 = 3">Return</v-btn>
                 <v-btn :color="colorStep5()" @click="validaStep5()">Next</v-btn>
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="6">
+            <v-stepper-content step="4.1">
               <v-card class="mb-12">
                 <v-card class="d-flex flex-wrap align-center">
                     <div style="width:100%" v-for="(v, i) in categoriesSelected" :key="i" class="w-50 pa-2">
@@ -318,13 +322,15 @@
               </v-card>
 
               <div style="text-align: end">
-                <v-btn style="margin-right: 20px" @click="e1 = 5">Return</v-btn>
+                <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
                 <v-btn color="primary" @click="e1 = 1">Finish</v-btn>
               </div>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
       </template>
+      </v-card>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -737,7 +743,7 @@ export default {
             this.selectedData2.push(this.data2[i]);
         }
         this.values = Array.from({ length: this.selectedData2.length }, () => 1).map(() => Array.from({ length: this.selectedData2.length }, () => 1));
-        this.e1 = 3;
+        this.e1 = 2.1;
       }else alert("At least two alternatives must be selected");
     },
     colorStep2() {
@@ -812,7 +818,7 @@ export default {
           const found = this.categoriesSelected.some(c => c.id === category.id);
           if (!found) this.categoriesSelected.push(category);
         }
-        this.e1 = 6;
+        this.e1 = 4.1;
       }else alert("At least two alternatives must be selected");
     },
 
@@ -823,3 +829,12 @@ export default {
   },
 };
 </script>
+
+<style>
+/* .div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+     
+  } */
+</style>

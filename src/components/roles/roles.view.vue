@@ -3,32 +3,29 @@
     <v-container fluid>
       <v-card :loading="loading" >
         <v-system-bar><v-spacer></v-spacer><b>Roles</b><v-spacer></v-spacer></v-system-bar>
-      <!-- <v-row>
+      <v-row>
         <v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  small color="primary" @click="agregar=true">
+          <v-btn  small color="primary" disabled @click="agregar=true">
            <v-icon dark> mdi-plus </v-icon> add rol
           </v-btn>
         </v-card-actions>
         </v-col>
-      </v-row> -->
-      <v-card outlined>
-       <v-list>
-        <v-list-item three-line v-for="(item, i) in roles" :key="i">
-          <v-list-item-content>
-            <v-list-item-title >
-                {{item}}
-            </v-list-item-title>
-          </v-list-item-content>
-
-        </v-list-item>
-       </v-list>
-      </v-card>
+      </v-row>
+      
+      <v-col v-for="(item, i) in roles"  :key="i" cols="12">
+          <v-card>
+            <div class="d-flex flex-no-wrap justify-space-between">
+              <div>
+                <v-card-title
+                  class="text-h5">{{item}}</v-card-title>
+              </div>
+            </div>
+          </v-card>
+      </v-col>
       </v-card>
     </v-container>
-  
-
   </div>
 </template>
 <script>
