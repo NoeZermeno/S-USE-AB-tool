@@ -1,10 +1,11 @@
 <template>
-    <v-dialog v-model="mostrar" scrollable max-width="800" color="primary" persistent>
+    <v-dialog v-model="mostrar" scrollable max-width="800" color="#19A08D" persistent>
         <v-card class="overflow-y-auto">
-            <v-toolbar dark color="primary" style="display: flex;justify-content: center;">
+            <v-toolbar dark color="#19A08D" style="display: flex;justify-content: center;">
                 <v-toolbar-title>add test</v-toolbar-title>
             </v-toolbar>
             <v-container>
+                <p style="font-size: 10px">Test/Add Test</p>
                 <v-form v-model="valid" ref="form">
                 <v-container>
                     <v-row no-gutters v-for="(n,index) in preguntas" :key="index">
@@ -33,9 +34,9 @@
                     </v-row>
                     <v-row justify="end">
                         <v-card-actions>
-                            <v-btn small dark outlined color="primary" class="ml-1" @click="cancelar()">Cancel
+                            <v-btn small dark outlined color="#19A08D" class="ml-1" @click="cancelar()">Cancel
                             </v-btn>
-                            <v-btn @click="guardar()" small color="primary" :disabled="!valid" :loading="loading"> save </v-btn>
+                            <v-btn @click="guardar()" small color="#19A08D" :disabled="!valid" :loading="loading"> save </v-btn>
                         </v-card-actions>
                     </v-row>
                 </v-container>

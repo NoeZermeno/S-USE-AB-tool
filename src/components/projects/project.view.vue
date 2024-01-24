@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 80%; margin: auto">
+  <div>
     <v-container fluid>
       <v-card :loading="loading" >
         <v-system-bar><v-spacer></v-spacer><b>Projects</b><v-spacer></v-spacer></v-system-bar>
@@ -7,19 +7,20 @@
         <v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  small color="primary" @click="agregar=true">
-           <v-icon dark> mdi-plus </v-icon> add project
+          <v-btn  small color="#19A08D" @click="agregar=true" dark>
+           <v-icon> mdi-plus </v-icon> add project
           </v-btn>
         </v-card-actions>
         </v-col>
       </v-row>
       
       <v-row align="center" justify="center">
-        <v-col
-          v-for="(variant, i) in proyectosList"
+        <v-col>
+        <v-container>
+          <v-row>
+            <v-col v-for="(variant, i) in proyectosList"
           :key="i"
-          cols="auto"
-        >
+          cols="6">
         <v-card class="mx-auto" outlined >
         <v-list-item three-line>
           <v-list-item-content>
@@ -42,10 +43,12 @@
             <v-btn text @click="eliminar(variant.id)"><v-icon dark> mdi-delete </v-icon> delete </v-btn>
       
           </v-card-actions>
-       
         </v-card>
-       
+        </v-col>
+        </v-row>
+        </v-container>
       </v-col>
+    
     </v-row>
     </v-card>
     </v-container>

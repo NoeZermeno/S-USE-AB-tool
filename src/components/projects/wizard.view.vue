@@ -1,16 +1,20 @@
 <template>
   <div>
     <v-container fluid>
-      <v-row justify="space-around">
       <v-card >
-        <v-img
-          height="200px"
-        >
-          <!-- src="https://cdn.vuetifyjs.com/docs/images/cards/purple-flowers.jpg" -->
-          <v-app-bar flat color="rgba(0, 0, 0, 0)">
-            <v-toolbar-title class="text-h6 black--text pl-0">  name of project </v-toolbar-title>  
-          </v-app-bar>
-        </v-img>
+        <div style="display: flex; justify-content: center">
+          <div style="margin: 25px">
+            <v-avatar color="surface-variant" size="128" class="mx-n6">
+                <v-img src="https://static.vecteezy.com/system/resources/previews/024/063/069/original/black-file-icon-symbol-free-png.png"></v-img>
+            </v-avatar>
+          </div>
+          <div style="margin:25px; display:flex; align-items: center">
+            <h2> Test</h2>
+          </div>
+        </div>
+        <div>
+          <p style="margin-left: 5px">Projects/Create</p>
+        </div>
 
       <template >
         <v-stepper v-model="e1">
@@ -41,18 +45,19 @@
           </v-stepper-header>
 
           <v-stepper-items style="height: 700px;">
-            <v-stepper-content step="1" >
-              <v-card class="mb-12">
-                <v-row>
+            <v-stepper-content style="height:100% !important" step="1" >
+              <div style="height:80% !important">
+              <v-card>
+                <!-- <v-row>
                   <v-col>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn small color="primary" @click="agregar = true">
+                      <v-btn small color="#19A08D" @click="agregar = true" dark>
                         <v-icon dark> mdi-plus </v-icon> add item
                       </v-btn>
                     </v-card-actions>
                   </v-col>
-                </v-row>
+                </v-row> -->
                 <v-data-table
                   dense
                   :headers="headers1"
@@ -94,18 +99,20 @@
                   </template>
                 </v-data-table>
               </v-card>  
-              <div style="text-align: end">  
-              <v-btn :color="colorStep1()" @click="validaStep1()">Next</v-btn>
+              </div>
+              <div class="boton" style="height:20% !important">  
+              <v-btn dark :color="colorStep1()" @click="validaStep1()">Next</v-btn>
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="2">
-              <v-card class="mb-12">
+            <v-stepper-content style="height:100% !important" step="2" >
+              <div style="height:80% !important">
+              <v-card>
                 <v-row>
                   <v-col>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn small color="primary" @click="agregar = true">
+                      <v-btn small color="#19A08D" @click="agregar = true" dark>
                         <v-icon dark> mdi-plus </v-icon> add item
                       </v-btn>
                     </v-card-actions>
@@ -136,60 +143,59 @@
                   </template>
                 </v-data-table>
               </v-card>
-              <div style="text-align: end">
+              </div>
+              <div class="boton" style="height:20% !important">  
                 <v-btn style="margin-right: 20px" @click="e1 = 1">Return</v-btn>
-                <v-btn :color="colorStep2()" @click="validaStep2()">Next</v-btn>
+              <v-btn dark :color="colorStep2()" @click="validaStep2()">Next</v-btn>
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="2.1">
-              <v-card class="mb-12">
-                <v-row>
-                  <v-col>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn small color="success">
-                        CI=0.09
-                      </v-btn>
-                    </v-card-actions>
-                  </v-col>
-                </v-row>
-                <v-simple-table>
-                  <template v-slot:default>
-                    <thead>
-                        <th>Criteria</th>
-                        <th v-for="item of selectedData2" :key="item.alias">{{ item.alias }}</th>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(itemx, x) in selectedData2" :key="itemx.alias">
-                            <td>{{ itemx.alias }}</td>
-                            <td v-for="(itemy, y) in selectedData2" :key="itemy.alias">
-                                <v-select
-                                    v-model="values[x][y]"
-                                    :items="corelation"
-                                    item-text="title"
-                                    item-value="value"
-                                    density="compact"
-                                    :disabled="x == y"
-                                    @change="val => onChangeValues(x, y, val)"
-                                ></v-select>
-                            </td>
-                        </tr>
-                    </tbody>
-                  </template>
-                </v-simple-table>
+            <v-stepper-content style="height:100% !important" step="2.1" >
+              <div style="height:80% !important">
+              <v-card>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn small color="success">
+                  CI=0.09
+                </v-btn>
+              </v-card-actions>
+              <v-simple-table>
+                <template v-slot:default>
+                  <thead>
+                      <th>Criteria</th>
+                      <th v-for="item of selectedData2" :key="item.alias">{{ item.alias }}</th>
+                  </thead>
+                  <tbody>
+                      <tr v-for="(itemx, x) in selectedData2" :key="itemx.alias">
+                          <td>{{ itemx.alias }}</td>
+                          <td v-for="(itemy, y) in selectedData2" :key="itemy.alias">
+                              <v-select
+                                  v-model="values[x][y]"
+                                  :items="corelation"
+                                  item-text="title"
+                                  item-value="value"
+                                  density="compact"
+                                  :disabled="x == y"
+                                  @change="val => onChangeValues(x, y, val)"
+                              ></v-select>
+                          </td>
+                      </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
               </v-card>
-
-              <div style="text-align: end">
-                <v-btn style="margin-right: 20px" @click="e1 = 2">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 3">Next</v-btn>
+              </div>
+              <div class="boton" style="height:20% !important">  
+                <v-btn style="margin-right: 20px"  @click="e1 = 2">Return</v-btn>
+                <v-btn dark color="#19A08D" @click="e1=3">Next</v-btn>
               </div>
             </v-stepper-content>
 
-            <v-stepper-content step="3">
-              <v-card class="mb-12">
-                <v-card>
-                  <div class="d-flex ma-10 align-center justify-center">
+            
+            <v-stepper-content style="height:100% !important" step="3" >
+              <div style="height:80% !important">
+              <v-card>
+                  <div class="d-flex align-center justify-center">
                       <div class="d-flex flex-column align-center">
                           <v-img width="150" src="/images/experts.png"></v-img>
                           <div>Experts</div>
@@ -226,22 +232,24 @@
                           <div><h2>{{percentageU}}%</h2></div> 
                       </div>
               </v-card>
-              </v-card>
-
-              <div style="text-align: end">
-                <v-btn style="margin-right: 20px" @click="e1 = 2.1">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 4">Next</v-btn>
               </div>
+               <div class="boton" style="height:20% !important">  
+                <v-btn style="margin-right: 20px" @click="e1 = 2.1">Return</v-btn>
+              <v-btn dark color="#19A08D" @click="e1=4">Next</v-btn>
+              </div>
+
+
             </v-stepper-content>
 
-            <v-stepper-content step="4">
-              <v-card class="mb-12">
+             <v-stepper-content style="height:100% !important" step="4" >
+              <div style="height:80% !important">
+              <v-card>
                 <div class="d-flex flex-wrap align-content-space-evenly">
                     <v-list>
                       <v-list-item-group v-model="selectedRoles" multiple>
                           <v-row >
                             <v-col v-for="(v, k) of groupedRoles" :key="k" sm="3" md="3" lg="3">
-                              <h4 style="text-align: center">{{headersRoles[k-1]}}</h4>
+                              <h4 v-bind:style="{'text-align': 'center', 'border-bottom': '1px solid black', 'background-color': headersRoles[k-1].color}">{{headersRoles[k-1].name}}</h4>
                               <template v-for="e in v">
                                 <v-list-item
                                   :key="e.id"
@@ -265,19 +273,21 @@
                     </v-list>
                 </div>
             </v-card>
-
-              <div style="text-align: end">
+            </div>
+              
+            <div class="boton" style="height:20% !important">  
                 <v-btn style="margin-right: 20px" @click="e1 = 3">Return</v-btn>
-                <v-btn :color="colorStep5()" @click="validaStep5()">Next</v-btn>
-              </div>
+              <v-btn dark :color="colorStep5()" @click="validaStep5()">Next</v-btn>
+            </div>
             </v-stepper-content>
-
-            <v-stepper-content step="4.1">
-              <v-card class="mb-12">
+          <v-stepper-content style="height:100% !important" step="4.1" >
+              <div style="height:80% !important">
+              <v-card>
                 <v-card class="d-flex flex-wrap align-center">
                     <div style="width:100%" v-for="(v, i) in categoriesSelected" :key="i" class="w-50 pa-2">
                         <v-card class="d-flex pa-2 align-center justify-space-between">
                             <v-slider
+                                style="align-items: baseline"
                                 class="w-75"
                                 v-model="v.value"
                                 :prepend-icon="v.icon"
@@ -288,6 +298,16 @@
                                 track-color="grey"
                                 @change="slidersValue(v)"
                             >
+                            <template v-slot:append>
+                              <v-text-field
+                                v-model="v.value"
+                                type="number"
+                                style="width: 80px"
+                                density="compact"
+                                hide-details
+                                outlined
+                              ></v-text-field>
+                            </template>
                             </v-slider>
                         </v-card>
                     </div>
@@ -320,17 +340,17 @@
                   label="Hear"
                 ></v-slider> -->
               </v-card>
-
-              <div style="text-align: end">
-                <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
-                <v-btn color="primary" @click="e1 = 1">Finish</v-btn>
               </div>
+              <div class="boton" style="height:20% !important">  
+                <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
+              <v-btn dark color="#19A08D" @click="e1 = 1">Finish</v-btn>
+              </div>
+
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
       </template>
       </v-card>
-      </v-row>
     </v-container>
   </div>
 </template>
@@ -398,7 +418,7 @@ export default {
     //         for (let i = 0; i < val.length; i++) {
     //           if (typeof val[i] === 'boolean' && val[i]== true) contador++;
     //         }
-    //         if(contador >= 2) this.coloor = 'primary'
+    //         if(contador >= 2) this.coloor = '#19A08D'
     //         else {
     //           this.coloor = 'gray'
     //         }
@@ -535,8 +555,8 @@ export default {
         },
       ],
       values: [],
-      percentageE: 50,
-      percentageU: 50,
+      percentageE: 100,
+      percentageU: 90,
       roles: [
         {
           id: 1,
@@ -651,10 +671,15 @@ export default {
       ],
       selectedRoles: [],
       selectedRolesInfo: [],
-      sliderSpeak: 50,
-      sliderTouch: 50,
-      sliderHear: 50,
-      headersRoles: [ "See", "Toch", "Hear", "Speak"],
+      sliderSpeak: 100,
+      sliderTouch: 100,
+      sliderHear: 100,
+      headersRoles: [ 
+        {name: "See", color: "#F44336"}, 
+        {name: "Toch", color: "#4CAF50"}, 
+        {name: "Hear", color: "#2196F3"}, 
+        {name: "Speak", color: "#ffeb3b "}
+        ],
       categoriesSelected: [],
     };
   },
@@ -703,7 +728,7 @@ export default {
         }
         if (contador >= 2) {
           this.next = true;
-          return "primary";
+          return "#19A08D";
         } else {
           this.next = false;
           return "gray";
@@ -758,7 +783,7 @@ export default {
         }
         if (contador >= 2) {
           this.next2 = true;
-          return "primary";
+          return "#19A08D";
         } else {
           this.next2 = false;
           return "gray";
@@ -798,7 +823,7 @@ export default {
     // ------------- STEP 5
     colorStep5() {
       if (this.selectedRoles.length >= 2) {
-        return "primary"
+        return "#19A08D"
       }else{
         return "gray"
       }
@@ -814,7 +839,7 @@ export default {
         for (let i = 0; i < this.selectedRolesInfo.length; i++) {
           const idCategory = this.roles[this.selectedRolesInfo[i].id-1].category;
           const category = this.roleCategories.find(c => c.id == idCategory)
-          category.value = 0;
+          category.value = 100;
           const found = this.categoriesSelected.some(c => c.id === category.id);
           if (!found) this.categoriesSelected.push(category);
         }
@@ -837,4 +862,14 @@ export default {
     align-items: flex-end;
      
   } */
+  .boton{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .v-stepper__wrapper{
+    height: 100% !important;
+
+  }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 80%; margin: auto">
+  <div>
     <v-container fluid>
       <v-card :loading="loading">
         <v-system-bar
@@ -9,7 +9,7 @@
           <v-col>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn small color="primary" @click="add = true">
+              <v-btn small color="#19A08D" @click="add = true">
                 <v-icon dark> mdi-plus </v-icon> add test
               </v-btn>
             </v-card-actions>
@@ -22,7 +22,7 @@
               <v-row align="center" justify="center">
                 <v-col cols="6">
                   <v-card @click="seeSUS = true" outlined>
-                    <v-toolbar dense dark color="primary">
+                    <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
                       <v-toolbar-title class="text-md-center">
                         SUS Questionnaire
@@ -43,7 +43,7 @@
                 </v-col>
                 <v-col cols="6">
                   <v-card @click="seeNPS = true" outlined>
-                    <v-toolbar dense dark color="primary">
+                    <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
                       <v-toolbar-title class="text-md-center">
                         NPS
@@ -61,7 +61,7 @@
               <v-row>
                 <v-col cols="6">
                   <v-card @click="seeACC = true">
-                    <v-toolbar dense dark color="primary">
+                    <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
                       <v-toolbar-title class="text-md-center">
                         ACC
@@ -82,10 +82,31 @@
                 </v-col>
                 <v-col cols="6">
                   <v-card @click="seeFour = true">
-                    <v-toolbar dense dark color="primary">
+                    <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
                       <v-toolbar-title class="text-md-center">
-                        test 4
+                        Usability test
+                      </v-toolbar-title>
+                      <v-spacer></v-spacer>
+                    </v-toolbar>
+                    <v-card-text
+                      >"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum."
+                    </v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col cols="6">
+                  <v-card @click="seeQuest = true">
+                    <v-toolbar dense dark color="#19A08D">
+                      <v-spacer></v-spacer>
+                      <v-toolbar-title class="text-md-center">
+                        Quest
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                     </v-toolbar>
@@ -112,6 +133,7 @@
     <nps-component v-if="seeNPS" :mostrar="seeNPS" :soloLectura="true" @cancelar="seeNPS = false" />
     <acc-component v-if="seeACC" :mostrar="seeACC" :soloLectura="true" @cancelar="seeACC = false" />
     <seeFourComponent v-if="seeFour" :mostrar="seeFour" :soloLectura="true" @cancelar="seeFour = false"/>
+    <questComponent v-if="seeQuest" :mostrar="seeQuest" :soloLectura="true" @cancelar="seeQuest = false"/>
     <add-component :mostrar="add" @cancelar="add = false" />
   </div>
 </template>
@@ -122,6 +144,7 @@ import susComponent from "./susComponent.vue";
 import npsComponent from "./npsComponent.vue";
 import accComponent from "./accComponent.vue";
 import seeFourComponent from "./card4.vue";
+import questComponent from "./quest.vue";
 import addComponent from "./formTest.vue";
 export default {
   name: "roles",
@@ -133,6 +156,7 @@ export default {
     npsComponent,
     accComponent,
     seeFourComponent,
+    questComponent,
     addComponent,
   },
 
@@ -144,6 +168,7 @@ export default {
       seeNPS: false,
       seeACC: false,
       seeFour: false,
+      seeQuest: false,
       add: false,
     };
   },

@@ -2,7 +2,7 @@
   <v-dialog v-model="mostrar" max-width="800" persistent>
   <v-form v-model="valid" ref="form">
     <v-card>
-      <v-toolbar color="primary" dark dense flat><h3>Users</h3></v-toolbar>
+      <v-toolbar color="#19A08D" dark dense flat><h3>Users</h3></v-toolbar>
       <v-container>
         <v-row >
           <v-col cols="12">
@@ -40,9 +40,9 @@
       <v-divider class="mx-3"></v-divider>
       <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn small dark outlined color="primary" class="ml-1" @click="$emit('cancelar')">Cancel
+          <v-btn small dark outlined color="#19A08D" class="ml-1" @click="$emit('cancelar')">Cancel
           </v-btn>
-          <v-btn @click="guardar()" small color="primary" :disabled="!valid" :loading="loading"> save </v-btn>
+          <v-btn @click="guardar()" small color="#19A08D" :disabled="!valid || loading" :loading="loading"> save </v-btn>
       </v-card-actions>
 
     </v-card>

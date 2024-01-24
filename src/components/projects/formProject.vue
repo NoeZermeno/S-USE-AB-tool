@@ -1,7 +1,7 @@
 <template>
-    <v-dialog v-model="mostrar" scrollable max-width="800" color="primary" persistent>
+    <v-dialog v-model="mostrar" scrollable max-width="800" color="#19A08D" persistent>
         <v-card class="overflow-y-auto">
-            <v-toolbar dark color="primary" style="display: flex;justify-content: center;">
+            <v-toolbar dark color="#19A08D" style="display: flex;justify-content: center;">
                 <v-toolbar-title>
                     <!-- {{ !convocatoria ? "Añadir " : "Modificar " }} -->
                     project </v-toolbar-title>
@@ -46,14 +46,14 @@
                             scrollable v-model="fecha" ><v-spacer></v-spacer>
                             <v-btn
                                 text
-                                color="primary"
+                                color="#19A08D"
                                 @click="menu = false"
                             >
                                 Cancel
                             </v-btn>
                             <v-btn
                                 text
-                                color="primary"
+                                color="#19A08D"
                                 @click="$refs.menu.save(fecha)"
                             >
                                 OK
@@ -65,9 +65,9 @@
                 </v-row>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn small dark outlined color="primary" class="ml-1" @click="$emit('cancelar')">Cancel
+                    <v-btn small dark outlined color="#19A08D" class="ml-1" @click="$emit('cancelar')">Cancel
                     </v-btn>
-                    <v-btn @click="guardar()" small color="primary" :disabled="!valid" :loading="loading"> save </v-btn>
+                    <v-btn @click="guardar()" small color="#19A08D" :disabled="!valid" :loading="loading"> save </v-btn>
                 </v-card-actions>
 
 

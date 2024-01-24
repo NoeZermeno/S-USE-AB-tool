@@ -1,7 +1,7 @@
 <template>
-  <div style="width: 80%; margin: auto">
+  <div>
     <v-container fluid>
-      <v-card :loading="loading">
+      <v-card style="padding-bottom: 20px" :loading="loading">
         <v-system-bar
           ><v-spacer></v-spacer><b>Usability Assessments</b><v-spacer></v-spacer
         ></v-system-bar>
@@ -28,9 +28,10 @@
                 <v-list-item-title>Experts</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
-                <v-chip class="ma-2" color="primary">4</v-chip>
+                <v-chip class="ma-2" color="#19A08D">4</v-chip>
               </v-list-item-action>
             </v-list-item>
+            <v-divider style="margin: 20px 0px 20px 0px"></v-divider>
             <v-list-item>
               <v-list-item-content>
                 <v-list-item-title>NPS</v-list-item-title>

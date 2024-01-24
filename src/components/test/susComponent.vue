@@ -1,18 +1,18 @@
 <template>
-  <v-dialog v-model="mostrar" fullscreen color="primary" persistent >
-    <v-card>
-      <v-toolbar
-        dark
-        color="primary"
-        
-      >
-        <v-btn icon dark @click="$emit('cancelar')">
+  <v-dialog v-model="mostrar" color="#19A08D" persistent >
+
+ 
+
+       <v-card>
+      <v-toolbar dark color="#19A08D">
+        <v-toolbar-title style="text-align: center;" dark>SUS Questionnaire</v-toolbar-title>
+        <v-spacer></v-spacer>
+         <v-btn text small @click="$emit('cancelar')"> 
           <v-icon>mdi-close</v-icon>
+          close
         </v-btn>
-        <v-spacer></v-spacer>
-        <v-toolbar-title style="text-align: center;">SUS Questionnaire</v-toolbar-title>
-        <v-spacer></v-spacer>
       </v-toolbar>
+
       <v-container>
        <v-row align="center" justify="center">
       <v-card-title>The System Usability Scale Standart Version</v-card-title>
@@ -27,19 +27,19 @@
          <template v-slot:body="{ items }">
             <tbody>
                 <tr v-for="(item, index) in items" :key="`item-${index}`" style="height:100px;">
-                <td style="text-align: center; width: 10px">
+                <td style="text-align: center; width: 10px; font-size: 18px">
                     {{item.number}}
                 </td>
-                <td style=" width:400px">
+                <td style="width:400px; font-size: 18px">
                     {{ item.question }}
                 </td>
                 <td style="text-align: center;">
-                <v-btn-toggle v-model="item.op" color="primary">
-                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-1-box-outline</v-icon></v-btn>
-                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
-                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
-                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
-                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
+                <v-btn-toggle v-model="item.op" color="#19A08D">
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-1 </v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-2 </v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-3 </v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-4 </v-icon></v-btn>
+                  <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-5 </v-icon></v-btn>
                 </v-btn-toggle>
                 </td>
                 </tr>
@@ -63,8 +63,8 @@ export default {
       loading: false,
       headers: [
         { text: "", value: "number", sortable:false },
-        { text: "question", value: "question", align: "center",sortable:false },
-        { text: "", value: "op", sortable:false },
+        { text: "Question", value: "question", align: "center",sortable:false },
+        { text: "Responses", align: "center", value: "op", sortable:false },
        
       ],
       data: [

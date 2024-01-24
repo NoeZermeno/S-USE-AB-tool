@@ -6,7 +6,7 @@
           <v-flex xs12 sm7 md5>
             <v-form v-on:submit.prevent  v-model="valid" ref="form">
               <v-card class="elevation-12" :loading="enviando">
-                <v-toolbar dense dark color="primary">
+                <v-toolbar dense dark color="#19A08D">
                   <v-spacer></v-spacer>
                   <v-toolbar-title class="text-md-center">Register</v-toolbar-title>
                   <v-spacer></v-spacer>
@@ -26,7 +26,7 @@
                     label="Select image"
                     @change="filePicked"
                 ></v-file-input>
-                <v-btn outlined color="primary" :loading="enviando" @click="pickFile">
+                <v-btn outlined color="#19A08D" :loading="enviando" @click="pickFile">
                   <v-icon>mdi-camera</v-icon>
                 </v-btn>
                 </div>
@@ -72,7 +72,7 @@
                 ></v-text-field>
                 <p class="errorMessage">{{ errorMessage }}</p>
                 <v-row justify="center">
-                  <v-btn color="primary" :disabled="!valid || enviando" @click="submit()" >save</v-btn>
+                  <v-btn color="#19A08D" :disabled="!valid || enviando" @click="submit()" >save</v-btn>
                 </v-row>
             
                   <!-- </v-row> -->

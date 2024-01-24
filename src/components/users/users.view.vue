@@ -1,5 +1,5 @@
 <template>
-    <div style="width: 80%; margin: auto">
+    <div>
     <v-container fluid>
       <v-card :loading="loading" >
         <v-system-bar><v-spacer></v-spacer><b>Users</b><v-spacer></v-spacer></v-system-bar>
@@ -7,7 +7,7 @@
         <v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  small color="primary" @click="agregar=true">
+          <v-btn  small color="#19A08D" @click="agregar=true">
            <v-icon dark> mdi-plus </v-icon> add user
           </v-btn>
         </v-card-actions>

@@ -1,26 +1,22 @@
 <template>
-  <v-dialog v-model="mostrar" fullscreen color="primary" persistent >
+  <v-dialog v-model="mostrar" color="#19A08D" persistent >
     <v-card>
-      <v-toolbar
-        dark
-        color="primary"
-        
-      >
-        <v-btn icon dark @click="$emit('cancelar')">
+      <v-toolbar dark color="#19A08D">
+        <v-toolbar-title style="text-align: center;" dark></v-toolbar-title>
+        <v-spacer></v-spacer>
+         <v-btn text small @click="$emit('cancelar')"> 
           <v-icon>mdi-close</v-icon>
+          close
         </v-btn>
-        <v-spacer></v-spacer>
-        <v-toolbar-title style="text-align: center;">four</v-toolbar-title>
-        <v-spacer></v-spacer>
       </v-toolbar>
 
-      <v-container>
-       <v-row align="center" justify="center">
+      <!-- <v-container> -->
+       <!-- <v-row align="center" justify="center">
       <v-card-title>The System Usability Scale Standart Version</v-card-title>
-       </v-row>
+       </v-row> -->
       <v-container>
        <v-row align="center" justify="center">
-       <v-card max-width="800px">
+       <v-card min-width="800px">
         <v-data-table
         :headers="headers"
         :items="data"
@@ -50,12 +46,13 @@
                 </td>
                 <td style="text-align: center;">
                   <v-row align="center" justify="center">
-                      <v-btn-toggle v-model="item.op" color="primary" >
-                        <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-1-box-outline</v-icon></v-btn>
-                        <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-2-box-outline</v-icon></v-btn>
-                        <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-3-box-outline</v-icon></v-btn>
-                        <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-4-box-outline</v-icon></v-btn>
-                        <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-5-box-outline</v-icon></v-btn>
+                      <v-btn-toggle v-model="item.op" color="#19A08D" >
+                        <v-btn :disabled="soloLectura">Unsatisfying</v-btn>
+                        <v-btn :disabled="soloLectura"> A little satisfying</v-btn>
+                        <v-btn :disabled="soloLectura"> Indifferent</v-btn>
+                        <v-btn :disabled="soloLectura"> Satisfying</v-btn>
+                        <v-btn :disabled="soloLectura">  Very satisfying</v-btn>
+                     
                       </v-btn-toggle>
                     </v-row>
                 </td>
@@ -65,7 +62,7 @@
         </v-data-table>
        </v-card>
        </v-row>
-        </v-container>
+        <!-- </v-container> -->
       </v-container>
 
     </v-card>
@@ -82,10 +79,10 @@ export default {
       // menu2:false,
    
       headers: [
-        { text: "Task Category", value: "task", sortable:false },
+        { text: "Task Category", align: "center", value: "task", sortable:false },
         { text: "Task List", value: "list", align: "center",sortable:false },
-        { text: "Time", value: "time", sortable:false },
-        { text: "Option", sortable:false },
+        { text: "Time", align: "center", value: "time", sortable:false },
+        { text: "Option", align: "center", sortable:false },
         
        
       ],
