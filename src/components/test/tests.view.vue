@@ -9,8 +9,8 @@
           <v-col>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn small color="#19A08D" @click="add = true">
-                <v-icon dark> mdi-plus </v-icon> add test
+              <v-btn dark small color="#19A08D" @click="add = true">
+                <v-icon > mdi-plus </v-icon> add test
               </v-btn>
             </v-card-actions>
           </v-col>

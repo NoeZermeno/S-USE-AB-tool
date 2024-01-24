@@ -11,7 +11,13 @@
               <v-avatar color="#8AA7FF"></v-avatar>
               <h2>Test Usability Assessments</h2>
               <v-spacer></v-spacer>
-              <v-icon @click="viewData()">mdi mdi-eye-circle-outline</v-icon>
+                 <v-tooltip left>
+       <template v-slot:activator="{ on }">
+        <v-icon v-on="on" @click="viewData()">mdi-eye</v-icon>
+       </template>
+       <span>more info</span>
+       </v-tooltip>
+             
             </div>
           </div>
           <template>

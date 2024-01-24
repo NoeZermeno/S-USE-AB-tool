@@ -26,9 +26,12 @@
          <template v-slot:body="{ items }">
             <tbody>
                 <tr style="height: 60px" v-for="(item, index) in items" :key="`item-${index}`">
-                <td>
-                    {{item.dimension}}
-                </td>
+                  <td class="text-center" style="border-bottom: 0px;border-right: 1px solid rgb(235, 235, 235)"
+                      v-if="((index) % 2 == 0)">
+                      <span>{{ item.dimension }}</span>
+                  </td>
+                  <td v-else class="text-center" style="border-right: 1px solid rgb(235, 235, 235)" >
+                  </td>
                 <td>
                     {{ item.quest }}
                 </td>

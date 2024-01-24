@@ -22,6 +22,8 @@
         :items="data"
         hide-default-footer
         :items-per-page="-1"
+        class="ma-8 elevation-1"
+
       >
          <template v-slot:body="{ items }">
             <tbody>
@@ -29,6 +31,15 @@
                 <td>
                     {{item.task}}
                 </td>
+                 <!-- <td class="text-center" style="border-bottom: 0px;border-right: 1px solid rgb(235, 235, 235)"
+                      v-if="((index-1) % 3 == 0) && [0,1,2,3,4,5].includes(index) || ((index-1) % 2 == 0) && [6,7].includes(index) || ((index-1) % 9 == 0) && [8,9,10,11,12,13,14,15,16].includes(index)||((index-1) % 6 == 0) && [17,18,19,20,21,22].includes(index) ||((index-1) % 5 == 0) && [23,24,25,26,27].includes(index)">
+                      <span>{{ item.task }}</span>
+                  </td>
+                   <td class="text-center" style="border-bottom: 0px;border-right: 1px solid rgb(235, 235, 235)"
+                    v-else-if="((index) % 3 == 0) && [0,1,2,3,4,5].includes(index) || ((index) % 2 == 0) && [6,7].includes(index) || ((index) % 9 == 0) && [8,9,10,11,12,13,14,15,16].includes(index)||((index) % 6 == 0) && [17,18,19,20,21,22].includes(index)||((index) % 5 == 0) && [23,24,25,26,27].includes(index)">
+                    </td>
+                    
+                  <td v-else class="text-center" style="border-right: 1px solid rgb(235, 235, 235)" ></td> -->
                 <td>
                     {{ item.list }}
                 </td>
