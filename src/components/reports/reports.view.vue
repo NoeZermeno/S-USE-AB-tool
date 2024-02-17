@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-card style="padding-bottom: 20px" :loading="loading">
         <v-system-bar
-          ><v-spacer></v-spacer><b>Usability Assessments</b><v-spacer></v-spacer
+          ><v-spacer></v-spacer><b class="text-h5">Usability Assessments</b><v-spacer></v-spacer
         ></v-system-bar>
         <v-card style="margin: 10px">
           <div style="background: #f5e642">
@@ -23,7 +23,7 @@
           <template>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>Destiataries</v-list-item-title>
+                <v-list-item-title class="biggerText">Destiataries</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-chip class="ma-2" color="success">11</v-chip>
@@ -31,16 +31,16 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>Experts</v-list-item-title>
+                <v-list-item-title class="biggerText">Experts</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
-                <v-chip class="ma-2" color="#19A08D">4</v-chip>
+                <v-chip class="ma-2" color="#19A08D" style="color: white">4</v-chip>
               </v-list-item-action>
             </v-list-item>
             <v-divider style="margin: 20px 0px 20px 0px"></v-divider>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>NPS</v-list-item-title>
+                <v-list-item-title class="biggerText">NPS</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-chip class="ma-2">15/15</v-chip>
@@ -48,7 +48,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>SUS</v-list-item-title>
+                <v-list-item-title class="biggerText">SUS</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-chip class="ma-2">15/15</v-chip>
@@ -56,7 +56,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>UT</v-list-item-title>
+                <v-list-item-title class="biggerText">UT</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-chip class="ma-2">15/15</v-chip>
@@ -64,7 +64,7 @@
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>ACC</v-list-item-title>
+                <v-list-item-title class="biggerText">ACC</v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
                 <v-chip class="ma-2">4/4</v-chip>
@@ -108,3 +108,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.biggerText {
+  font-size: 25px !important;
+}
+</style>

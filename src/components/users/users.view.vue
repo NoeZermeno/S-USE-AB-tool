@@ -2,12 +2,12 @@
     <div>
     <v-container fluid>
       <v-card :loading="loading" >
-        <v-system-bar><v-spacer></v-spacer><b>Users</b><v-spacer></v-spacer></v-system-bar>
+        <v-system-bar><v-spacer></v-spacer><b class="text-h5">Users</b><v-spacer></v-spacer></v-system-bar>
       <v-row>
         <v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  small color="#19A08D" @click="agregar=true">
+          <v-btn  large color="#19A08D" @click="agregar=true">
            <v-icon dark> mdi-plus </v-icon> add user
           </v-btn>
         </v-card-actions>
@@ -18,6 +18,7 @@
               <v-spacer></v-spacer>
               <v-spacer></v-spacer>
               <v-text-field
+                class="biggertext"
                 v-model="search"
                 append-icon="mdi-magnify"
                 label="Search"
@@ -30,17 +31,16 @@
               :loading="loading"
               :search="search"
               :items="usuarios"
-              class="mx-3"
-             
+              class="text-h6 mx-3"
             >
             <template v-slot:body="{ items }">
               <tbody>
               <tr v-for="(item, index) in items" :key="`item-${index}`">
-              <td>{{ item.name }}</td>
+              <td class="text-h6">{{ item.name }}</td>
               <td>
                 <div style="padding: 10px; display: flex; justify-content: end;">
-                <v-btn icon :disabled="loading" @click="editar(item)"><v-icon small>mdi-pencil</v-icon> </v-btn>
-                <v-btn icon :disabled="loading" @click="eliminar(item)"><v-icon small>mdi-close</v-icon> </v-btn>
+                <v-btn icon :disabled="loading" @click="editar(item)"><v-icon medium>mdi-pencil</v-icon> </v-btn>
+                <v-btn icon :disabled="loading" @click="eliminar(item)"><v-icon medium>mdi-close</v-icon> </v-btn>
                   </div>
               </td>
 
@@ -174,3 +174,15 @@ export default {
 }
 
 </script>
+
+<style lang="postcss" scoped>
+/deep/ .v-label {
+  font-size: 20px !important;
+}
+/deep/ .text-start {
+  font-size: 25px !important;
+}
+/deep/ .v-data-footer {
+  font-size: 18px !important
+}
+</style>

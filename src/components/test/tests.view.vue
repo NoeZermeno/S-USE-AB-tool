@@ -3,13 +3,13 @@
     <v-container fluid>
       <v-card :loading="loading">
         <v-system-bar
-          ><v-spacer></v-spacer><b>test</b><v-spacer></v-spacer
+          ><v-spacer></v-spacer><b class="text-h5">Test</b><v-spacer></v-spacer
         ></v-system-bar>
         <v-row>
           <v-col>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn dark small color="#19A08D" @click="add = true">
+              <v-btn dark lerger color="#19A08D" @click="add = true">
                 <v-icon > mdi-plus </v-icon> add test
               </v-btn>
             </v-card-actions>
@@ -24,12 +24,12 @@
                   <v-card @click="seeSUS = true" outlined>
                     <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center">
+                      <v-toolbar-title class="text-md-center text-h5">
                         SUS Questionnaire
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                     </v-toolbar>
-                    <v-card-text
+                    <v-card-text class="biggerText"
                       >The System Usability Scale (SUS) provides a “quick and
                       dirty”, reliable tool for measuring the usability. It
                       consists of a 10 item questionnaire with five response
@@ -45,13 +45,13 @@
                   <v-card @click="seeNPS = true" outlined>
                     <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center">
+                      <v-toolbar-title class="text-md-center text-5">
                         NPS
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                     </v-toolbar>
 
-                    <v-card-text
+                    <v-card-text class="biggerText"
                       >The Net Promoter Score or NPS is a tool that helps you measure customer satisfaction with a single question, giving you an indicator of growth for your company or product. The NPS evaluates the degree to which a person recommends a certain company, product or service to friends, family or colleagues. The idea is very simple: if you like using a product or doing business with a particular company, you are willing to share that experience with others.
                     </v-card-text
                     >
@@ -63,12 +63,12 @@
                   <v-card @click="seeACC = true">
                     <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center">
+                      <v-toolbar-title class="text-md-center text-h5">
                         ACC
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                     </v-toolbar>
-                    <v-card-text
+                    <v-card-text class="biggerText"
                       >"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -84,12 +84,12 @@
                   <v-card @click="seeFour = true">
                     <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center">
+                      <v-toolbar-title class="text-md-center text-h5">
                         Usability test
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                     </v-toolbar>
-                    <v-card-text
+                    <v-card-text class="biggerText"
                       >"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -105,12 +105,12 @@
                   <v-card @click="seeQuest = true">
                     <v-toolbar dense dark color="#19A08D">
                       <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center">
+                      <v-toolbar-title class="text-md-center text-h5">
                         Quest
                       </v-toolbar-title>
                       <v-spacer></v-spacer>
                     </v-toolbar>
-                    <v-card-text
+                    <v-card-text class="biggerText"
                       >"Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                       sed do eiusmod tempor incididunt ut labore et dolore magna
                       aliqua. Ut enim ad minim veniam, quis nostrud exercitation
@@ -174,3 +174,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.biggerText {
+  font-size: 18px !important;
+  min-height: 250px !important
+}
+</style>

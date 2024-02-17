@@ -2,12 +2,12 @@
   <div>
     <v-container fluid>
       <v-card :loading="loading" >
-        <v-system-bar><v-spacer></v-spacer><b>Roles</b><v-spacer></v-spacer></v-system-bar>
+        <v-system-bar><v-spacer></v-spacer><b class="text-h5">Roles</b><v-spacer></v-spacer></v-system-bar>
       <v-row>
         <v-col>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn  small color="#19A08D" disabled @click="agregar=true">
+          <v-btn  large color="#19A08D" disabled @click="agregar=true">
            <v-icon dark> mdi-plus </v-icon> add rol
           </v-btn>
         </v-card-actions>
