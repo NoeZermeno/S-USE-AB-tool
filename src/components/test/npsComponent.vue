@@ -19,16 +19,16 @@
       
         <v-container style="text-align: center;" >
            <v-btn-toggle v-model="opcion" color="#19A08D">
-            <v-btn > <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
-            <v-btn > <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
-            <v-btn > <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
-            <v-btn > <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
-            <v-btn > <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
-            <v-btn > <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
-            <v-btn> <v-icon color="amber">mdi-emoticon-neutral</v-icon></v-btn>
-            <v-btn > <v-icon color="amber">mdi-emoticon-neutral</v-icon></v-btn>
-            <v-btn > <v-icon color="green">mdi-emoticon-excited</v-icon></v-btn>
-            <v-btn > <v-icon color="green">mdi-emoticon-excited</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="red">mdi-emoticon-sad</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="amber">mdi-emoticon-neutral</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="amber">mdi-emoticon-neutral</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="green">mdi-emoticon-excited</v-icon></v-btn>
+            <v-btn :disabled="soloLectura"> <v-icon color="green">mdi-emoticon-excited</v-icon></v-btn>
              <!-- <v-btn :disabled="soloLectura"> <v-icon>mdi-emoticon-neutral</v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-emoticon-neutral</v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-emoticon-excited</v-icon></v-btn>
@@ -36,7 +36,7 @@
           </v-btn-toggle>
           <v-btn-toggle v-model="opcion" color="#19A08D">
             
-            <v-btn   > <v-icon>mdi-numeric-1</v-icon></v-btn>
+            <!-- <v-btn   > <v-icon>mdi-numeric-1</v-icon></v-btn>
             <v-btn   > <v-icon>mdi-numeric-2</v-icon></v-btn>
             <v-btn   > <v-icon>mdi-numeric-3 </v-icon></v-btn>
             <v-btn   > <v-icon>mdi-numeric-4</v-icon></v-btn>
@@ -45,8 +45,9 @@
             <v-btn   > <v-icon>mdi-numeric-7 </v-icon></v-btn>
             <v-btn   > <v-icon>mdi-numeric-8 </v-icon></v-btn>
             <v-btn   > <v-icon>mdi-numeric-9 </v-icon></v-btn>
-            <v-btn   > <v-icon>mdi-numeric-10 </v-icon></v-btn>
-              <!-- <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-1</v-icon></v-btn>
+            <v-btn   > <v-icon>mdi-numeric-10 </v-icon></v-btn> -->
+
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-1</v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-2</v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-3 </v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-4</v-icon></v-btn>
@@ -55,7 +56,7 @@
             <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-7 </v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-8 </v-icon></v-btn>
             <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-9 </v-icon></v-btn>
-            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-10 </v-icon></v-btn> -->
+            <v-btn :disabled="soloLectura"> <v-icon>mdi-numeric-10 </v-icon></v-btn>
           </v-btn-toggle>
          
           

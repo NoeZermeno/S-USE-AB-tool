@@ -5,25 +5,27 @@
         <v-system-bar><v-spacer></v-spacer><b class="text-h5">Roles</b><v-spacer></v-spacer></v-system-bar>
       <v-row>
         <v-col>
-        <v-card-actions>
+        <!-- <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn  large color="#19A08D" disabled @click="agregar=true">
            <v-icon dark> mdi-plus </v-icon> add rol
           </v-btn>
-        </v-card-actions>
+        </v-card-actions> -->
         </v-col>
       </v-row>
       
-      <v-col v-for="(item, i) in roles"  :key="i" cols="12">
-          <v-card>
-            <div class="d-flex flex-no-wrap justify-space-between">
-              <div>
-                <v-card-title
-                  class="text-h5">{{item}}</v-card-title>
+      <v-row>
+        <v-col v-for="(item, i) in roles"  :key="i" cols="6">
+            <v-card>
+              <div style="text-align: center" class="">
+                <div>
+                  <v-card-title style="display: block" class="text-h5">{{item.title}}</v-card-title>
+                  <v-icon size="250">{{item.icon}}</v-icon>
+                </div>
               </div>
-            </div>
-          </v-card>
-      </v-col>
+            </v-card>
+        </v-col>
+      </v-row>
       </v-card>
     </v-container>
   </div>
@@ -41,7 +43,12 @@ export default {
     return {
       loading: false,
       agregar: false,
-      roles:['See', 'Touch', 'Hear', 'Speak']
+      roles:[
+        {title: 'See', icon: "mdi mdi-eye-off-outline"}, 
+        {title: 'Touch', icon: "mdi mdi-hand-back-right-off-outline"}, 
+        {title: 'Hear', icon: "mdi mdi-ear-hearing-off"}, 
+        {title: 'Speak', icon: "mdi mdi-account-voice-off"}
+      ]
     }
   },
   //methods:{

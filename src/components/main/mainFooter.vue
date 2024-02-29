@@ -6,7 +6,7 @@
             </div>
             <v-spacer></v-spacer>
             <div>
-            <v-img style="width: 80px" src="/data/logo-ugr-footer.png"></v-img>
+            <v-img style="width: 200px" src="/data/logo-ugr-footer.png"></v-img>
             </div>
         </div>
         <!-- <span class="overline">&copy; {{ new Date().getFullYear() }} </span> -->

@@ -15,7 +15,7 @@
                              label="Question" 
                              required 
                              outlined 
-                             :append-outer-icon="index==0?'':'mdi-close'"
+                             :append-outer-icon="'mdi-close'"
                              @click:append-outer="eliminarPregunta"
                              :rules="preguntasRules"
                           ></v-text-field>

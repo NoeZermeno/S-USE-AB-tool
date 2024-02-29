@@ -1,8 +1,8 @@
 <template>
   <v-dialog v-model="mostrar" color="#19A08D" persistent >
-    <v-card>
+    <v-card min-height="900px">
       <v-toolbar dark color="#19A08D">
-        <v-toolbar-title style="text-align: center;" dark></v-toolbar-title>
+        <v-toolbar-title style="text-align: center;" dark>{{title}}</v-toolbar-title>
         <v-spacer></v-spacer>
          <v-btn text small @click="$emit('cancelar')"> 
           <v-icon>mdi-close</v-icon>
@@ -10,14 +10,100 @@
         </v-btn>
       </v-toolbar>
 
+      <v-row style="margin: 10px" v-if="test">
+        <v-col cols="4">
+          <v-text-field 
+            v-model="category" 
+            label="Category" 
+            required 
+            outlined 
+            :rules="preguntasRules"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="5">
+          <v-text-field 
+            v-model="task" 
+            label="Task" 
+            required 
+            outlined
+            :rules="preguntasRules"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-text-field 
+            v-model="time"
+            type="number"
+            label="Time" 
+            required 
+            outlined
+            :rules="preguntasRules"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="1">
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn dark lerger color="#19A08D" @click="agregarPregunta()">
+              <v-icon > mdi-plus </v-icon> add questions
+            </v-btn>
+          </v-card-actions>
+        </v-col>
+      </v-row>
+
       <!-- <v-container> -->
        <!-- <v-row align="center" justify="center">
       <v-card-title>The System Usability Scale Standart Version</v-card-title>
        </v-row> -->
       <v-container>
        <v-row align="center" justify="center">
-       <v-card min-width="800px">
+       <v-card v-if="localData.length > 0" min-width="100%">
         <v-data-table
+          dense
+          disable-sort
+          :headers="headers"
+          hide-default-footer
+          :items="localData"
+          :items-per-page="-1"
+          group-by="task"
+          class="ma-8 elevation-1"
+        >
+          <template v-slot:[`group.header`]="{items, isOpen, toggle}">
+            <th colspan="2">
+              <v-icon @click="toggle">{{ isOpen ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
+              {{ items[0].category }}
+            </th>
+          </template>
+          <template v-slot:item="{ item }">
+            <tr style="height: 60px !important">
+              <td><strong>{{ item.task }}</strong></td>
+              <td style="width: 150px">
+                  <v-text-field
+                  v-model="item.time"
+                  type="number"
+                  label="Select seconds"
+                  step=".1"
+                  min="0"
+                  max="200"
+                  suffix="seconds"
+                  :disabled="soloLectura"
+                ></v-text-field>
+              </td>
+              <td style="text-align: center;">
+                  <v-row align="center" justify="center">
+                      <v-btn-toggle v-model="item.op" color="#19A08D" >
+                        <v-btn :disabled="soloLectura">Unsatisfying</v-btn>
+                        <v-btn :disabled="soloLectura"> A little satisfying</v-btn>
+                        <v-btn :disabled="soloLectura"> Indifferent</v-btn>
+                        <v-btn :disabled="soloLectura"> Satisfying</v-btn>
+                        <v-btn :disabled="soloLectura">  Very satisfying</v-btn>
+                     
+                      </v-btn-toggle>
+                    </v-row>
+                </td>
+            </tr>
+          </template>
+        </v-data-table>
+
+        <!-- <v-data-table
         :headers="headers"
         :items="data"
         hide-default-footer
@@ -31,15 +117,6 @@
                 <td>
                     {{item.task}}
                 </td>
-                 <!-- <td class="text-center" style="border-bottom: 0px;border-right: 1px solid rgb(235, 235, 235)"
-                      v-if="((index-1) % 3 == 0) && [0,1,2,3,4,5].includes(index) || ((index-1) % 2 == 0) && [6,7].includes(index) || ((index-1) % 9 == 0) && [8,9,10,11,12,13,14,15,16].includes(index)||((index-1) % 6 == 0) && [17,18,19,20,21,22].includes(index) ||((index-1) % 5 == 0) && [23,24,25,26,27].includes(index)">
-                      <span>{{ item.task }}</span>
-                  </td>
-                   <td class="text-center" style="border-bottom: 0px;border-right: 1px solid rgb(235, 235, 235)"
-                    v-else-if="((index) % 3 == 0) && [0,1,2,3,4,5].includes(index) || ((index) % 2 == 0) && [6,7].includes(index) || ((index) % 9 == 0) && [8,9,10,11,12,13,14,15,16].includes(index)||((index) % 6 == 0) && [17,18,19,20,21,22].includes(index)||((index) % 5 == 0) && [23,24,25,26,27].includes(index)">
-                    </td>
-                    
-                  <td v-else class="text-center" style="border-right: 1px solid rgb(235, 235, 235)" ></td> -->
                 <td>
                     {{ item.list }}
                 </td>
@@ -70,28 +147,39 @@
                 </tr>
             </tbody>
         </template>
-        </v-data-table>
+        </v-data-table> -->
        </v-card>
        </v-row>
         <!-- </v-container> -->
       </v-container>
 
     </v-card>
+    <add-component :mostrar="add" @cancelar="add = false" />
   </v-dialog>
 </template>
 <script>
+import addComponent from "./formTest.vue";
+import { serviceToken } from "../../helpers/service.service";
 export default {
   name: "card4",
-  props: ["mostrar","soloLectura"],
+  props: ["mostrar", "soloLectura", "test"],
 
   data() {
     return {
       loading: false,
+      title: "Usability test",
+      add: false,
+      category: "",
+      task: "",
+      time: 0,
+      preguntasRules: [
+        v => !!v || 'Required',
+      ],
       // menu2:false,
    
       headers: [
-        { text: "Task Category", align: "center", value: "task", sortable:false },
-        { text: "Task List", value: "list", align: "center",sortable:false },
+        { text: "Task Category", align: "center", value: "category", sortable:false },
+        { text: "Task List", value: "task", align: "center",sortable:false },
         { text: "Time", align: "center", value: "time", sortable:false },
         { text: "Option", align: "center", sortable:false },
         
@@ -99,180 +187,224 @@ export default {
       ],
       data: [
         {
-          task: "Log in to the platform",
-          list: "1. Login to Moodle",
+          category: "Log in to the platform",
+          task: "Login to Moodle",
           time:0,
           op: undefined,
         },
         {
-          task: "",
-          list: "2. Find a course",
+          category: "Log in to the platform",
+          task: "Find a course",
           time:0,
           op: undefined,
         },
          {
-          task: "",
-          list: "3. Access into the course",
+          category: "Log in to the platform",
+          task: "Access into the course",
           time:0,
           op: undefined,
         },
    
         {
-          task:"Technical support access",
-          list: "4. Find technical support documentation (manual, FAQ)",
+          category:"Technical support access",
+          task: "Find technical support documentation (manual, FAQ)",
           time:0,
           op: undefined,
         },
         {  
-          task:"",
-          list: "5. Fill the technical support contact form",
+          category:"Technical support access",
+          task: "Fill the technical support contact form",
          time:0,
           op: undefined,
         },
         {
-            task:"",
-          list: "6. Switch site language",
+            category:"Technical support access",
+          task: "Switch site language",
          time:0,
           op: undefined,
         },
         {
-         task:"User account management",
-          list: "7. Edit your profile",
+         category:"User account management",
+          task: "Edit your profile",
           time:0,
           op: undefined,
         },
         {
-          task:"",
-          list: "8. Upload/Update profile photo",
+          category:"User account management",
+          task: "Upload/Update profile photo",
          time:0,
           op: undefined,
         },
         {
-          task:"Access to information and resources/content",
-          list: "9. Read news items in what's new",
+          category:"Access to information and resources/content",
+          task: "Read news items in what's new",
           time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "10. Download a file",
+         category:"Access to information and resources/content",
+          task: "Download a file",
           time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "11. Download a file from resource Directory",
+         category:"Access to information and resources/content",
+          task: "Download a file from resource Directory",
           time:0,
           op: undefined,
         },
           {
-          task:"",
-          list: "12. Track a URL link external to the platform resources/content",
+          category:"Access to information and resources/content",
+          task: "Track a URL link external to the platform resources/content",
           time:0,
           op: undefined,
         },
         {
-       task:"",
-          list: "13. Display an embedded video",
+       category:"Access to information and resources/content",
+          task: "Display an embedded video",
          time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "14. View a Page resource",
+         category:"Access to information and resources/content",
+          task: "View a Page resource",
           time:0,
           op: undefined,
         },
          {  
-          task:"",
-          list: "15. Fill the technical support contact form",
+          category:"Access to information and resources/content",
+          task: "Fill the technical support contact form",
           time:0,
           op: undefined,
         },
         {
-            task:"",
-          list: "16. Switch site language",
+            category:"Access to information and resources/content",
+          task: "Switch site language",
          time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "17. Edit your profile",
+         category:"Access to information and resources/content",
+          task: "Edit your profile",
           time:0,
           op: undefined,
         },
         {
-          task:"Communication",
-          list: "18. Upload/Update profile photo",
+          category:"Communication",
+          task: "Upload/Update profile photo",
          time:0,
           op: undefined,
         },
         {
-          task:"",
-          list: "19. Read news items in what's new",
+          category:"Communication",
+          task: "Read news items in what's new",
           time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "20. Download a file",
+         category:"Communication",
+          task: "Download a file",
           time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "21. Download a file from resource Directory",
+         category:"Communication",
+          task: "Download a file from resource Directory",
           time:0,
           op: undefined,
         },
           {
-          task:"",
-          list: "22. Track a URL link external to the platform resources/content",
+          category:"Communication",
+          task: "Track a URL link external to the platform resources/content",
           time:0,
           op: undefined,
         },
         {
-       task:"",
-          list: "23. Display an embedded video",
+       category:"Communication",
+          task: "Display an embedded video",
          time:0,
           op: undefined,
         },
         {
-         task:"Accomplishment of course activities ",
-          list: "24. View a Page resource",
+         category:"Accomplishment of course activities",
+          task: "View a Page resource",
           time:0,
           op: undefined,
         },
           {
-          task:"",
-          list: "25. Track a URL link external to the platform resources/content",
+          category:"Accomplishment of course activities",
+          task: "Track a URL link external to the platform resources/content",
           time:0,
           op: undefined,
         },
         {
-       task:"",
-          list: "26. Display an embedded video",
+       category:"Accomplishment of course activities",
+          task: "Display an embedded video",
          time:0,
           op: undefined,
         },
         {
-         task:"",
-          list: "27. View a Page resource",
+         category:"Accomplishment of course activities",
+          task: "View a Page resource",
           time:0,
           op: undefined,
         },
          {
-         task:"",
-          list: "28. View a Page resource",
+         category:"Accomplishment of course activities",
+          task: "View a Page resource",
           time:0,
           op: undefined,
         },
       ],
     };
   },
-  computed: {},
-  created() {},
+  computed: {
+    localData(){
+      return this.data.map((x) => {return x})
+    }
+  },
+  components:{
+    addComponent
+  },
+  created() {
+    if(this.test) {
+      this.title = this.test.name;
+      this.data = [];
+    }
+  },
   mounted() {},
-  methods: {},
+  methods: {
+    async agregarPregunta(){
+      try {
+        this.loading = true;
+        const question = {
+          category: this.category, 
+          task: this.task, 
+          time: this.time,
+          op: undefined,
+        }
+        
+        const data = {
+          method: "config.tests.test.set",
+          id: this.test.id,
+          questions: question
+        };
+        
+        const serverResponse = await serviceToken(data);
+        this.loading = false;
+        this.category = "";
+        this.task = "";
+        this.time = 0;
+
+        if (serverResponse.response.data.status == "error")
+          alert(`${serverResponse.response.data.message}`);
+        else this.data.push(question);
+
+      } catch (error) {
+        console.log(error);
+        this.loading = false;
+      }
+    },
+  },
 };
 </script>

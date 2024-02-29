@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="mostrar" color="#19A08D" persistent >
+  <v-dialog style="min-height: 800px" v-model="mostrar" color="#19A08D" persistent >
     <v-card>
       <v-toolbar dark color="#19A08D">
-        <v-toolbar-title style="text-align: center;" dark></v-toolbar-title>
+        <v-toolbar-title style="text-align: center;" dark>{{title}}</v-toolbar-title>
         <v-spacer></v-spacer>
          <v-btn text small @click="$emit('cancelar')"> 
           <v-icon>mdi-close</v-icon>
@@ -18,6 +18,41 @@
        <v-row align="center" justify="center">
        <v-card min-width="800px">
         <v-data-table
+          dense
+          disable-sort
+          :headers="headers"
+          hide-default-footer
+          :items="data"
+          :items-per-page="-1"
+          item-key="id"
+          group-by="dimension"
+        >
+          <template v-slot:[`group.header`]="{items, isOpen, toggle}">
+            <th colspan="2">
+              <v-icon @click="toggle">{{ isOpen ? 'mdi-minus' : 'mdi-plus' }}</v-icon>
+              {{ items[0].dimension }}
+            </th>
+          </template>
+          <template v-slot:item="{ item }">
+            <tr style="height: 60px !important">
+              <td><strong>{{ item.quest }}</strong></td>
+              <td style="text-align: center;">
+                  <v-row align="center" justify="center">
+                      <v-btn-toggle v-model="item.op" color="#19A08D" >
+                        <v-btn :disabled="soloLectura">Anger</v-btn>
+                        <v-btn :disabled="soloLectura">Frustration</v-btn>
+                        <v-btn :disabled="soloLectura">Indifference</v-btn>
+                        <v-btn :disabled="soloLectura">Joy</v-btn>
+                        <v-btn :disabled="soloLectura">Happiness</v-btn>
+                     
+                      </v-btn-toggle>
+                    </v-row>
+                </td>
+            </tr>
+          </template>
+        </v-data-table>
+    <!-- ------------ -->
+        <!-- <v-data-table
         :headers="headers"
         :items="data"
         hide-default-footer
@@ -50,7 +85,7 @@
                 </tr>
             </tbody>
         </template>
-        </v-data-table>
+        </v-data-table> -->
        </v-card>
        </v-row>
         <!-- </v-container> -->
@@ -62,19 +97,18 @@
 <script>
 export default {
   name: "quest",
-  props: ["mostrar","soloLectura"],
+  props: ["mostrar", "soloLectura", "test"],
 
   data() {
     return {
       loading: false,
+      title: "Quest",
       // menu2:false,
    
       headers: [
         { text: "Dimension", value: "dimension", align: "center", sortable:false },
         { text: "Question", value: "quest", align: "center",sortable:false },
         { text: "Option", align: "center", sortable:false },
-        
-       
       ],
       data: [
         {
@@ -143,7 +177,11 @@ export default {
     };
   },
   computed: {},
-  created() {},
+  created() {
+    if(this.test) {
+      this.title = this.test.name;
+    }
+  },
   mounted() {},
   methods: {},
 };

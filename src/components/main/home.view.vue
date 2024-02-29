@@ -46,7 +46,7 @@ export default {
     menu: [
         {route:'/projects',title:'Projects', icon:"/data/SVG/Projects.svg"},
         {route:'/test',title:'Test', icon:"/data/SVG/Testing.svg"},
-        {route:'/users',title:'Users'},
+        // {route:'/users',title:'Users'},
         {route:'/roles',title:'Roles'},
         {route:'/reports',title:'Reports', icon:"/data/SVG/REports.svg"}
     ],

@@ -48,16 +48,16 @@
             <v-stepper-content style="height:100% !important" step="1" >
               <div style="height:80% !important">
               <v-card>
-                <!-- <v-row>
+                <v-row>
                   <v-col>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn small color="#19A08D" @click="agregar = true" dark>
+                      <v-btn style="margin-bottom: 10px" small color="#19A08D" @click="agregar = true" dark>
                         <v-icon dark> mdi-plus </v-icon> add item
                       </v-btn>
                     </v-card-actions>
                   </v-col>
-                </v-row> -->
+                </v-row>
                 <v-data-table
                   dense
                   :headers="headers1"
@@ -108,16 +108,6 @@
             <v-stepper-content style="height:100% !important" step="2" >
               <div style="height:80% !important">
               <v-card>
-                <v-row>
-                  <v-col>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn small color="#19A08D" @click="agregar = true" dark>
-                        <v-icon dark> mdi-plus </v-icon> add item
-                      </v-btn>
-                    </v-card-actions>
-                  </v-col>
-                </v-row>
                 <v-data-table
                   :headers="headers2"
                   :items="data2"
@@ -129,15 +119,13 @@
                       <tr v-for="(item, index) in items" :key="`item-${index}`">
                         <td style="width: 50px">
                           <v-simple-checkbox
-                            @change="colorStep2()"
-                            v-model="selected2[index]"
+                            @click="actionStep2(index, item.id), colorStep2()"
+                            v-model="item.exists"
                           ></v-simple-checkbox>
                         </td>
                         <td style="text-align: left">{{ item.alias }}</td>
-                        <td style="text-align: left">{{ item.nombre }}</td>
-                        <td style="text-align: left">
-                          instruccionesinstruccionesinstruccionesinstruccionesinstrucciones
-                        </td>
+                        <td style="text-align: left">{{ item.name }}</td>
+                        <td style="text-align: left">{{ item.instructions }}</td>
                       </tr>
                     </tbody>
                   </template>
@@ -187,7 +175,7 @@
               </div>
               <div class="boton" style="height:20% !important">  
                 <v-btn style="margin-right: 20px"  @click="e1 = 2">Return</v-btn>
-                <v-btn dark color="#19A08D" @click="e1=3">Next</v-btn>
+                <v-btn dark :color="colorStep3()" @click="validaStep3()">Next</v-btn>
               </div>
             </v-stepper-content>
 
@@ -208,6 +196,7 @@
                               max="100"
                               color="blue-lighten-1"
                               track-color="blue-lighten-1"
+                              @change="setValueExperts()"
                           />
                       </div>
                       <div>
@@ -227,6 +216,7 @@
                                 max="100"
                                 color="blue-lighten-1"
                                 track-color="blue-lighten-1"
+                                @change="setValueUsers()"
                               />
                           </div>
                           <div><h2>{{percentageU}}%</h2></div> 
@@ -237,7 +227,6 @@
                 <v-btn style="margin-right: 20px" @click="e1 = 2.1">Return</v-btn>
               <v-btn dark color="#19A08D" @click="e1=4">Next</v-btn>
               </div>
-
 
             </v-stepper-content>
 
@@ -434,6 +423,7 @@ export default {
       loading: false,
       next: false,
       next2: false,
+      next3: false,
       e1: 1,
       selected1: [],
       selectedData1: [],
@@ -684,37 +674,46 @@ export default {
     };
   },
   methods: {
-    async funcion() {
+    async funcion(data) {
       try {
         this.loading = true;
-        const data = {
-          //"method":'project.get'
-        };
         const serverResponse = await serviceToken(data);
         this.loading = false;
 
         if (serverResponse.status == "error")
           alert(`${serverResponse.message}`);
-        //TODO --> REVISAR QUE FUNCIONE ESTE ERROR
-        else this.projects = serverResponse;
+        else return serverResponse;
+
       } catch (error) {
-        // console.log(error);
         this.loading = false;
-        localStorage.removeItem("token");
-        sessionStorage.removeItem("token");
-        this.$store.dispatch("setSessionToken", null);
-        this.$router.push("/login");
+        alert("Sorry, failed connection");
       }
     },
     //------------ STEP 1
-    validaStep1() {
+    async validaStep1() {
       this.colorStep1();
       if (this.next) {
         this.selectedData1 = [];
+        this.selected2 = [];
         for (let i = 0; i < this.selected1.length; i++) {
           if (typeof this.selected1[i] === "boolean" && this.selected1[i] == true)
             this.selectedData1.push(this.data1[i]);
         }
+        const data = {
+          method: 'config.tests.get',
+          project: parseInt(this.$route.params.id)
+        }
+        this.data2 =  await this.funcion(data);
+        const criteriaSelected = await this.funcion({method: 'project.tests.get', project: parseInt(this.$route.params.id)});
+        criteriaSelected.forEach(c => {
+          let index = this.data2.findIndex((x) => x.id == c);
+          this.selected2.push(index);
+        });
+        this.data2 = this.data2.map(c => {
+          let exists = false;
+          if(criteriaSelected.includes(c.id)) exists = true;
+          return {...c, exists}
+        })
         this.e1 = 2;
       }
       else alert("At least two alternatives must be selected");
@@ -763,31 +762,34 @@ export default {
       this.colorStep2();
       if (this.next2) {
         this.selectedData2 = [];
+        this.values = [];
         for (let i = 0; i < this.selected2.length; i++) {
-          if (typeof this.selected2[i] === "boolean" && this.selected2[i] == true)
-            this.selectedData2.push(this.data2[i]);
+            this.selectedData2.push(this.data2[this.selected2[i]]);
         }
         this.values = Array.from({ length: this.selectedData2.length }, () => 1).map(() => Array.from({ length: this.selectedData2.length }, () => 1));
         this.e1 = 2.1;
       }else alert("At least two alternatives must be selected");
     },
+    async actionStep2(index, idItem){
+      if (index && idItem && this.selected2.includes(index)) {
+        const data = {method: 'project.tests.unset', project: parseInt(this.$route.params.id), test: idItem};
+        await this.funcion(data);
+        let i = this.selected2.findIndex((i) => i == index);
+        this.selected2.splice(i, 1)
+
+      } else if(index && idItem && !this.selected2.includes(index)) {
+        const data = {method: 'project.tests.set', project: parseInt(this.$route.params.id), test: idItem};
+        await this.funcion(data);
+        this.selected2.push(index)
+      }
+    },
     colorStep2() {
-      let contador = 0;
-      if (this.selected2.length) {
-        for (let i = 0; i < this.selected2.length; i++) {
-          if (
-            typeof this.selected2[i] === "boolean" &&
-            this.selected2[i] == true
-          )
-            contador++;
-        }
-        if (contador >= 2) {
-          this.next2 = true;
-          return "#19A08D";
-        } else {
-          this.next2 = false;
-          return "gray";
-        }
+      if (this.selected2.length >= 2) {
+        this.next2 = true;
+        return "#19A08D";
+      } else {
+        this.next2 = false;
+        return "gray";
       }
     },
     async eliminar2(item) {
@@ -818,6 +820,46 @@ export default {
       if (x == y) return;
       this.values[x][y] = value;
       this.values[y][x] = value;
+    },
+    colorStep3() {
+      if (this.selected2.length >= 2) {
+        this.next3 = true;
+        return "#19A08D";
+      } else {
+        this.next3 = false;
+        return "gray";
+      }
+    },
+    async validaStep3(){
+      const data = {
+        method: 'project.userScale.get', 
+        project: parseInt(this.$route.params.id),
+      }
+      const serverResponse = await this.funcion(data);
+      
+      this.percentageE = serverResponse.experts;
+      this.percentageU = serverResponse.endusers;
+      this.e1 = 3;
+    },
+
+    // ------------- STEP 4
+    async setValueExperts(){
+      const data = {
+        method: 'project.userScale.set', 
+        project: parseInt(this.$route.params.id),
+        user: 'EXPERT',
+        value: this.percentageE
+      }
+      await this.funcion(data);
+    },
+    async setValueUsers(){
+      const data = {
+        method: 'project.userScale.set', 
+        project: parseInt(this.$route.params.id),
+        user: 'ENDUSER',
+        value: this.percentageU
+      }
+      await this.funcion(data);
     },
 
     // ------------- STEP 5
