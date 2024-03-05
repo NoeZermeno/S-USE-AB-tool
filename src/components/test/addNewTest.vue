@@ -93,6 +93,7 @@ export default {
     },
     mounted(){
         if(this.test) {
+            this.type = this.test.type;
             this.alias = this.test.alias;
             this.name = this.test.name;
             this.instructions = this.test.instructions;

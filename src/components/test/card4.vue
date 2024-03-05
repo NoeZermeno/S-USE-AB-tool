@@ -10,44 +10,68 @@
         </v-btn>
       </v-toolbar>
 
-      <v-row style="margin: 10px" v-if="test">
-        <v-col cols="4">
-          <v-text-field 
-            v-model="category" 
-            label="Category" 
-            required 
-            outlined 
-            :rules="preguntasRules"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="5">
-          <v-text-field 
-            v-model="task" 
-            label="Task" 
-            required 
-            outlined
-            :rules="preguntasRules"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="1">
-          <v-text-field 
-            v-model="time"
-            type="number"
-            label="Time" 
-            required 
-            outlined
-            :rules="preguntasRules"
-          ></v-text-field>
-        </v-col>
-        <v-col cols="1">
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn dark lerger color="#19A08D" @click="agregarPregunta()">
+      <!-- <v-row  v-if="test"> -->
+      <v-container v-if="test">
+      <v-row align="center" justify="center">
+       <v-alert style="margin: 10px" density="compact" text="" title="Alert title" type="warning">If you close without saving, all unsaved questions will be deleted.</v-alert>
+      </v-row>
+      <v-form v-model="valid" ref="form" v-if="test">
+          <v-row  v-for="(n,index) in preguntas" :key="index">
+              <v-col cols="8">
+                  <v-text-field 
+                  v-model="n.category" 
+                  label="Category" 
+                  required 
+                  outlined 
+                  :rules="preguntasRules.category"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="3">
+                <v-text-field 
+                  v-model="n.task" 
+                  label="Task" 
+                  required 
+                  outlined
+                  :rules="preguntasRules.task"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="1">
+                <v-text-field 
+                  v-model="n.time"
+                  type="number"
+                  label="Time"
+                  min="0"
+                  required 
+                  outlined  
+                  :rules="preguntasRules.time"
+                  :append-outer-icon="'mdi-close'"
+                  @click:append-outer="eliminarPregunta(index)"
+                ></v-text-field>
+
+              </v-col>
+          </v-row>
+      </v-form>
+ 
+      <v-row>
+        <v-col>
+        <v-tooltip top>
+            <template v-slot:activator="{ on }">
+              <v-btn dark v-on="on" lerger color="#19A08D" @click="agregarPregunta()">
               <v-icon > mdi-plus </v-icon> add questions
             </v-btn>
-          </v-card-actions>
+            </template>
+            <span>add question</span>
+        </v-tooltip>
         </v-col>
       </v-row>
+      <v-row justify="end">
+        <v-card-actions>
+            <v-btn  dark outlined color="#19A08D" class="ml-1" @click="cancelar()">Cancel
+            </v-btn>
+            <v-btn @click="saveQuestionnaire()" color="#19A08D" :disabled="!valid" :loading="loading"> save </v-btn>
+        </v-card-actions>
+      </v-row>
+      </v-container>
 
       <!-- <v-container> -->
        <!-- <v-row align="center" justify="center">
@@ -150,6 +174,7 @@
         </v-data-table> -->
        </v-card>
        </v-row>
+
         <!-- </v-container> -->
       </v-container>
 
@@ -159,7 +184,7 @@
 </template>
 <script>
 import addComponent from "./formTest.vue";
-import { serviceToken } from "../../helpers/service.service";
+import { serviceAddQestions } from "../../helpers/service.service";
 export default {
   name: "card4",
   props: ["mostrar", "soloLectura", "test"],
@@ -171,12 +196,7 @@ export default {
       add: false,
       category: "",
       task: "",
-      time: 0,
-      preguntasRules: [
-        v => !!v || 'Required',
-      ],
-      // menu2:false,
-   
+      time: 0,   
       headers: [
         { text: "Task Category", align: "center", value: "category", sortable:false },
         { text: "Task List", value: "task", align: "center",sortable:false },
@@ -356,6 +376,17 @@ export default {
           op: undefined,
         },
       ],
+      valid: false,
+      preguntasRules: {
+        category: [v => !!v || 'Required'],
+        task: [v => !!v || 'Required'],
+        time: [v => !!v || 'Required']
+        },
+      categoryRules: [
+        v => !!v || "Category is required",
+      ],
+      errorMessage: "",
+      preguntas:[{category:'',task:'', time:0}],
     };
   },
   computed: {
@@ -374,23 +405,13 @@ export default {
   },
   mounted() {},
   methods: {
-    async agregarPregunta(){
+    async saveQuestionnaire(){
       try {
         this.loading = true;
-        const question = {
-          category: this.category, 
-          task: this.task, 
-          time: this.time,
-          op: undefined,
-        }
+
+        const data = { method: "config.tests.test.set", id: this.test.id };
         
-        const data = {
-          method: "config.tests.test.set",
-          id: this.test.id,
-          questions: question
-        };
-        
-        const serverResponse = await serviceToken(data);
+        const serverResponse = await serviceAddQestions(data, this.preguntas);
         this.loading = false;
         this.category = "";
         this.task = "";
@@ -398,12 +419,18 @@ export default {
 
         if (serverResponse.response.data.status == "error")
           alert(`${serverResponse.response.data.message}`);
-        else this.data.push(question);
+        else console.log(serverResponse);
 
       } catch (error) {
         console.log(error);
         this.loading = false;
       }
+    },
+    agregarPregunta(){
+        this.preguntas.push({task:'', category:'', time:0})
+    },
+    eliminarPregunta(index){
+      this.preguntas.splice(index,1)
     },
   },
 };

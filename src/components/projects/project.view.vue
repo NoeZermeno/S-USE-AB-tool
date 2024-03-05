@@ -165,7 +165,6 @@ export default {
         };
         const serverResponse = await serviceToken(data);
         this.loading = false;
-
         if (serverResponse.status == "error")
           alert(
             `${serverResponse.message}`

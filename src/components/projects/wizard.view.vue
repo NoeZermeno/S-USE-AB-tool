@@ -47,61 +47,13 @@
           <v-stepper-items style="height: 700px;">
             <v-stepper-content style="height:100% !important" step="1" >
               <div style="height:80% !important">
-              <v-card>
-                <v-row>
-                  <v-col>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn style="margin-bottom: 10px" small color="#19A08D" @click="agregar = true" dark>
-                        <v-icon dark> mdi-plus </v-icon> add item
-                      </v-btn>
-                    </v-card-actions>
-                  </v-col>
-                </v-row>
-                <v-data-table
-                  dense
-                  :headers="headers1"
-                  :items="data1"
-                  item-key="alias"
-                  class="elevation-1"
-                >
-                  <template v-slot:body="{ items }">
-                    <tbody>
-                      <tr v-for="(item, index) in items" :key="`item-${index}`">
-                        <td style="width: 50px">
-                          <v-simple-checkbox
-                            @change="colorStep1()"
-                            v-model="selected1[index]"
-                          ></v-simple-checkbox>
-                        </td>
-                        <td style="text-align: center; width: 50px">
-                          {{ item.visible }}
-                        </td>
-                        <td style="text-align: center">{{ item.alias }}</td>
-                        <td style="text-align: center">{{ item.url }}</td>
-                        <td>
-                          <div style="padding: 10px; display: flex; justify-content: center;">
-                            <v-avatar color="#8AA7FF"></v-avatar>
-                          </div>
-                        </td>
-                        <td>
-                          <div style="padding: 10px; display: flex; justify-content: center;">
-                            <v-btn icon :disabled="loading" @click="editar(item)">
-                              <v-icon small>mdi-pencil</v-icon>
-                            </v-btn>
-                            <v-btn icon :disabled="loading" @click="eliminar(item)">
-                              <v-icon small>mdi-close</v-icon>
-                            </v-btn>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </template>
-                </v-data-table>
-              </v-card>  
+                <stepOne
+                  :selected="selected1"
+                  @alternativesChanged="colorStep1"
+                />
               </div>
               <div class="boton" style="height:20% !important">  
-              <v-btn dark :color="colorStep1()" @click="validaStep1()">Next</v-btn>
+                <v-btn dark :color="color1" @click="validaStep1()">Next</v-btn>
               </div>
             </v-stepper-content>
 
@@ -225,7 +177,7 @@
               </div>
                <div class="boton" style="height:20% !important">  
                 <v-btn style="margin-right: 20px" @click="e1 = 2.1">Return</v-btn>
-              <v-btn dark color="#19A08D" @click="e1=4">Next</v-btn>
+              <v-btn dark color="#19A08D" @click="validaStep4()">Next</v-btn>
               </div>
 
             </v-stepper-content>
@@ -234,7 +186,7 @@
               <div style="height:80% !important">
               <v-card>
                 <div class="d-flex flex-wrap align-content-space-evenly">
-                    <v-list>
+                    <v-list style="width: 100%">
                       <v-list-item-group v-model="selectedRoles" multiple>
                           <v-row >
                             <v-col v-for="(v, k) of groupedRoles" :key="k" sm="3" md="3" lg="3">
@@ -243,7 +195,7 @@
                                 <v-list-item
                                   :key="e.id"
                                   variant="elevated"
-                                  :color="roleCategoriesMap[e.category].color"
+                                  :color="roleCategoriesMap[e.role_category].color"
                                   @click="setRolesInfo(e)"
                                 >
                                   <v-list-item-icon>
@@ -332,7 +284,7 @@
               </div>
               <div class="boton" style="height:20% !important">  
                 <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
-              <v-btn dark color="#19A08D" @click="e1 = 1">Finish</v-btn>
+              <v-btn dark color="#19A08D" @click="validaStep6()">Finish</v-btn>
               </div>
 
             </v-stepper-content>
@@ -347,48 +299,25 @@
 <script>
 import { serviceToken } from "../../helpers/service.service";
 import { mapGetters } from "vuex";
-
+import stepOne from "./stepOne";
+import _ from "underscore";
 // import { DateTime } from 'luxon'
 export default {
   name: "wizard",
   computed: {
     ...mapGetters(["sessionToken"]),
-    // data1List(){
-    //   let list = []
-    //   if(this.data1.length){
-    //   list = this.data1.map(x=>{
-    //     return {
-    //       check:x.visible == 1 ? true : false,
-    //       visible: x.visible,
-    //       alias:x.alias,
-    //       url:x.url,
-    //       icono:x.logo
-    //     }
-    //   })
-    //   }
-    //   return list;
-
-    // },
-    // criteria: function () {
-    //   const result = [];
-    //   this.evaluationCriteria.forEach((e) => {
-    //     console.log(e);
-    //     this.selected2.map(function (s) {
-    //       console.log(s);
-    //     });
-    //   });
-    //   // this.evaluationCriteria.filter(e => this.selected2.value.includes(e.alias));
-    //   return result;
-    // },
     groupedRoles(){
-      let acc = this.roles.reduce((acc, curr) => {
-        if (!(curr.category in acc)) {
-            acc[curr.category] = [];
-        }
-        acc[curr.category].push(curr);
+      if(this.roles.length == 0) return [];
+      else{
+        let acc = this.roles.reduce((acc, curr) => {
+          if (!(curr.role_category in acc)) {
+              acc[curr.role_category] = [];
+          }
+          acc[curr.role_category].push(curr);
+          return acc;
+        }, {})
         return acc;
-      }, {})
-      return acc;
+      }
     },
     roleCategoriesMap(){
       let acc = this.roleCategories.reduce((acc, curr) => {
@@ -399,21 +328,8 @@ export default {
     }
         
   },
-  components: {},
-  watch: {
-    // 'selected1':function(val){
-    //       let contador = 0;
-    //       if(val.length){
-    //         for (let i = 0; i < val.length; i++) {
-    //           if (typeof val[i] === 'boolean' && val[i]== true) contador++;
-    //         }
-    //         if(contador >= 2) this.coloor = '#19A08D'
-    //         else {
-    //           this.coloor = 'gray'
-    //         }
-    //       }
-    //     }
-  },
+  components: {stepOne},
+  watch: {},
   mounted() {
     //if(this.sessionToken)
     // get proyecto
@@ -429,44 +345,6 @@ export default {
       selectedData1: [],
       selected2: [],
       selectedData2: [],
-      headers1: [
-        { text: "", value: "check" },
-        { text: "Visible", value: "visible", align: "center" },
-        { text: "Alias", value: "alias", align: "center" },
-        { text: "Url", value: "url", align: "center" },
-        { text: "Logo", value: "logo", align: "center" },
-        { text: "Actions", value: "", align: "center" },
-      ],
-      data1: [
-        {
-          visible: 1,
-          alias: "UGR",
-          url: "https://ugr.es",
-          logo: "[Foto]",
-          actions: "[Editar][Eliminar]",
-        },
-        {
-          visible: 1,
-          alias: "UGR2",
-          url: "https://ugr.es",
-          logo: "[Foto]",
-          actions: "[Editar][Eliminar]",
-        },
-        {
-          visible: 1,
-          alias: "UGR3",
-          url: "https://ugr.es",
-          logo: "[Foto]",
-          actions: "[Editar][Eliminar]",
-        },
-        {
-          visible: 1,
-          alias: "UGR4",
-          url: "https://ugr.es",
-          logo: "[Foto]",
-          actions: "[Editar][Eliminar]",
-        },
-      ],
       coloor: "gray",
       headers2: [
         { text: "", value: "check" },
@@ -548,90 +426,90 @@ export default {
       percentageE: 100,
       percentageU: 90,
       roles: [
-        {
-          id: 1,
-          title: 'Blind',
-          subtitle: 'Permanent visual impairment.',
-          category: 1,
-          icon: '/images/blind.png'
-        },
-        {
-          id: 2,
-          title: 'One arm',
-          subtitle: 'Permanent visual impairment.',
-          category: 2,
-          icon: '/images/one-arm.png'
-        },
-        {
-          id: 3,
-          title: 'Deaf',
-          subtitle: 'Situationaly visual impairment ',
-          category: 3,
-          icon: '/images/deaf.png'
-        },
-        {
-          id: 4,
-          title: 'Non verbal',
-          subtitle: 'Situationaly visual impairment ',
-          category: 4,
-          icon: '/images/non-verbal.png'
-        },
-        {
-          id: 5,
-          title: 'Cataratas',
-          subtitle: 'Permanent visual impairment.',
-          category: 1,
-          icon: '/images/cataratas.png'
-        },
-        {
-          id: 6,
-          title: 'Arm injury',
-          subtitle: 'Permanent visual impairment.',
-          category: 2,
-          icon: '/images/arm-injury.png'
-        },
-        {
-          id: 7,
-          title: 'Ear infection',
-          subtitle: 'Permanent visual impairment.',
-          category: 3,
-          icon: '/images/ear-infection.png'
-        },
-        {
-          id: 8,
-          title: 'Laryngitis',
-          subtitle: 'Permanent visual impairment.',
-          category: 4,
-          icon: '/images/laryngitis.png'
-        },
-        {
-          id: 9,
-          title: 'Distracted',
-          subtitle: 'Permanent visual impairment.',
-          category: 1,
-          icon: '/images/distracted.png'
-        },
-        {
-          id: 10,
-          title: 'New parent',
-          subtitle: 'Permanent visual impairment.',
-          category: 2,
-          icon: '/images/new-parent.png'
-        },
-        {
-          id: 11,
-          title: 'Bartender',
-          subtitle: 'Permanent visual impairment.',
-          category: 3,
-          icon: '/images/bartender.png'
-        },
-        {
-          id: 12,
-          title: 'Heavy accent',
-          subtitle: 'Permanent visual impairment.',
-          category: 4,
-          icon: '/images/heavy-accent.png'
-        }
+        // {
+        //   id: 1,
+        //   title: 'Blind',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 1,
+        //   icon: '/images/blind.png'
+        // },
+        // {
+        //   id: 2,
+        //   title: 'One arm',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 2,
+        //   icon: '/images/one-arm.png'
+        // },
+        // {
+        //   id: 3,
+        //   title: 'Deaf',
+        //   subtitle: 'Situationaly visual impairment ',
+        //   category: 3,
+        //   icon: '/images/deaf.png'
+        // },
+        // {
+        //   id: 4,
+        //   title: 'Non verbal',
+        //   subtitle: 'Situationaly visual impairment ',
+        //   category: 4,
+        //   icon: '/images/non-verbal.png'
+        // },
+        // {
+        //   id: 5,
+        //   title: 'Cataratas',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 1,
+        //   icon: '/images/cataratas.png'
+        // },
+        // {
+        //   id: 6,
+        //   title: 'Arm injury',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 2,
+        //   icon: '/images/arm-injury.png'
+        // },
+        // {
+        //   id: 7,
+        //   title: 'Ear infection',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 3,
+        //   icon: '/images/ear-infection.png'
+        // },
+        // {
+        //   id: 8,
+        //   title: 'Laryngitis',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 4,
+        //   icon: '/images/laryngitis.png'
+        // },
+        // {
+        //   id: 9,
+        //   title: 'Distracted',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 1,
+        //   icon: '/images/distracted.png'
+        // },
+        // {
+        //   id: 10,
+        //   title: 'New parent',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 2,
+        //   icon: '/images/new-parent.png'
+        // },
+        // {
+        //   id: 11,
+        //   title: 'Bartender',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 3,
+        //   icon: '/images/bartender.png'
+        // },
+        // {
+        //   id: 12,
+        //   title: 'Heavy accent',
+        //   subtitle: 'Permanent visual impairment.',
+        //   category: 4,
+        //   icon: '/images/heavy-accent.png'
+        // }
       ],
       roleCategories: [
         {
@@ -671,6 +549,7 @@ export default {
         {name: "Speak", color: "#ffeb3b "}
         ],
       categoriesSelected: [],
+      color1: "gray",
     };
   },
   methods: {
@@ -691,19 +570,12 @@ export default {
     },
     //------------ STEP 1
     async validaStep1() {
-      this.colorStep1();
+      this.colorStep1(this.selected1);
       if (this.next) {
-        this.selectedData1 = [];
+
         this.selected2 = [];
-        for (let i = 0; i < this.selected1.length; i++) {
-          if (typeof this.selected1[i] === "boolean" && this.selected1[i] == true)
-            this.selectedData1.push(this.data1[i]);
-        }
-        const data = {
-          method: 'config.tests.get',
-          project: parseInt(this.$route.params.id)
-        }
-        this.data2 =  await this.funcion(data);
+
+        this.data2 =  await this.funcion({method: 'config.tests.get', project: parseInt(this.$route.params.id)});
         const criteriaSelected = await this.funcion({method: 'project.tests.get', project: parseInt(this.$route.params.id)});
         criteriaSelected.forEach(c => {
           let index = this.data2.findIndex((x) => x.id == c);
@@ -718,42 +590,14 @@ export default {
       }
       else alert("At least two alternatives must be selected");
     },
-    colorStep1() {
-      let contador = 0;
-      if (this.selected1.length) {
-        for (let i = 0; i < this.selected1.length; i++) {
-          if (typeof this.selected1[i] === "boolean" && this.selected1[i] == true)
-            contador++;
-        }
-        if (contador >= 2) {
-          this.next = true;
-          return "#19A08D";
-        } else {
-          this.next = false;
-          return "gray";
-        }
-      }
-    },
-    async eliminar(item) {
-      var result = confirm(`Are you sure to delete ${item.alias}?`);
-      if (result == true) {
-        try {
-          this.loading = true;
-          const data = {
-            // 'method':'project.delete',
-            id: item.id,
-          };
-          const serverResponse = await serviceToken(data);
-          this.loading = false;
-          console.log(serverResponse);
-          let index = this.data1.findIndex((x) => x.id == item.id);
-          if (index >= 0) this.data1.splice(index, 1);
-        } catch (error) {
-          // console.log(error);
-          this.loading = false;
-        }
+    colorStep1(alternativesSelected) {
+      this.selected1 = alternativesSelected;
+      if (alternativesSelected.length >= 2) {
+        this.next = true;
+        this.color1 = "#19A08D";
       } else {
-        return false;
+        this.next = false;
+        this.color1 = "gray";
       }
     },
 
@@ -861,6 +705,19 @@ export default {
       }
       await this.funcion(data);
     },
+    async validaStep4(){
+      this.setValueExperts();
+      this.setValueUsers();
+
+      this.roles = await this.funcion({method: 'config.roles.get', project: parseInt(this.$route.params.id)});
+      const rolesSelected = await this.funcion({method: 'project.roles.get', project: parseInt(this.$route.params.id)});
+      rolesSelected.forEach(r => {
+          let index = this.roles.findIndex((x) => x.id == r);
+          this.selectedRoles.push(index);
+          this.selectedRolesInfo.push(this.roles[index]);
+        });
+      this.e1 = 4;
+    },
 
     // ------------- STEP 5
     colorStep5() {
@@ -870,28 +727,54 @@ export default {
         return "gray"
       }
     },
-    setRolesInfo(e){
+    async setRolesInfo(e){
       const index = this.selectedRolesInfo.findIndex(i => i.id == e.id);
-      if(index > -1) this.selectedRolesInfo.splice(index, 1)
-      else this.selectedRolesInfo.push(e)
+      if(index > -1) {
+        await this.funcion({method: 'project.roles.unset', project: parseInt(this.$route.params.id), role: e.id});
+        this.selectedRolesInfo.splice(index, 1)
+      }
+      else {
+        await this.funcion({method: 'project.roles.set', project: parseInt(this.$route.params.id), role: e.id});
+        this.selectedRolesInfo.push(e);
+      }
     },
-    validaStep5(){
+    async validaStep5(){
       if (this.selectedRolesInfo.length >= 2) {
         this.categoriesSelected = [];
+        const categoriesSaved = await this.funcion({method: 'project.roleScale.get', project: parseInt(this.$route.params.id)});
+        let activeCategories = [];
         for (let i = 0; i < this.selectedRolesInfo.length; i++) {
-          const idCategory = this.roles[this.selectedRolesInfo[i].id-1].category;
-          const category = this.roleCategories.find(c => c.id == idCategory)
-          category.value = 100;
+          const idCategory = this.roles[this.selectedRolesInfo[i].id-1].role_category;
+          activeCategories.push(idCategory);
+          const category = this.roleCategories.find(c => c.id == idCategory);
+          const valueSaved = categoriesSaved[idCategory];
+          valueSaved > 0 ? category.value = valueSaved : category.value = 100;
           const found = this.categoriesSelected.some(c => c.id === category.id);
           if (!found) this.categoriesSelected.push(category);
+        }
+        const categoriesDiference = _.difference([1, 2, 3, 4], activeCategories);
+        for(const c of categoriesDiference){
+          await this.slidersValue({id: c, value: 0});
         }
         this.e1 = 4.1;
       }else alert("At least two alternatives must be selected");
     },
 
     // ------------- STEP 6
-    slidersValue(value){
-      console.log(value);
+    async slidersValue(value){
+      const data = {
+        method: 'project.roleScale.set', 
+        project: parseInt(this.$route.params.id),
+        rolecategory: value.id,
+        value: value.value
+      }
+      await this.funcion(data);
+    },
+    async validaStep6(){
+      for(const c of this.categoriesSelected){
+        await this.slidersValue({id: c.id, value: c.value});
+      }
+      this.$router.push('/projects');
     },
   },
 };
