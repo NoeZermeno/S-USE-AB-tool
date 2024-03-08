@@ -27,7 +27,9 @@
                   <td style="text-align: center">{{ item.url }}</td>
                   <td>
                     <div style="padding: 10px; display: flex; justify-content: center;">
-                      <v-avatar color="#8AA7FF"></v-avatar>
+                      <v-avatar color="#8AA7FF">
+                        <v-img :src="item.image" cover></v-img>
+                      </v-avatar>
                     </div>
                   </td>
                   <td>
@@ -314,7 +316,8 @@ export default {
                 visible = true;
                 this.alternativesSelected.push(c.id);
               }
-              return { ...c, visible };
+              let image = `https://lionware.dev/ari-dasci/webservice/?method=project.alternatives.pic&id=${c.id}`;
+              return { ...c, visible, image };
             });
             this.$emit("alternativesChanged", this.selectedData);
           }

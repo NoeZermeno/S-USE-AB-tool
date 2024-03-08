@@ -10,19 +10,15 @@
         </v-btn>
       </v-toolbar>
 
-      <!-- <v-container> -->
-       <!-- <v-row align="center" justify="center">
-      <v-card-title>The System Usability Scale Standart Version</v-card-title>
-       </v-row> -->
       <v-container>
        <v-row align="center" justify="center">
-       <v-card min-width="800px">
+       <v-card v-if="localData.length > 0" min-width="800px">
         <v-data-table
           dense
           disable-sort
           :headers="headers"
           hide-default-footer
-          :items="data"
+          :items="localData"
           :items-per-page="-1"
           item-key="id"
           group-by="dimension"
@@ -97,7 +93,7 @@
 <script>
 export default {
   name: "quest",
-  props: ["mostrar", "soloLectura", "test"],
+  props: ["mostrar", "soloLectura"],
 
   data() {
     return {
@@ -176,11 +172,14 @@ export default {
       ],
     };
   },
-  computed: {},
+  computed: {
+    localData() {
+      return this.data.map((x) => {
+        return {...x, time: 0};
+      });
+    },
+  },
   created() {
-    if(this.test) {
-      this.title = this.test.name;
-    }
   },
   mounted() {},
   methods: {},

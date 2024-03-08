@@ -35,7 +35,11 @@
                         </v-list-item-subtitle>
                       </v-list-item-content>
 
-                      <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+                      <v-list-item-avatar tile size="80">
+                        <v-avatar style="width: 80px; height: 80px" color="#8AA7FF">
+                          <v-img :src="variant.image" cover></v-img>
+                        </v-avatar>
+                      </v-list-item-avatar>
                     </v-list-item>
 
                     <v-card-actions>
@@ -139,6 +143,7 @@ export default {
           id: x.id,
           name: x.name,
           inicio: DateTime.fromISO(x.begin).toFormat("dd-MM-yyyy"),
+          image: `https://lionware.dev/ari-dasci/webservice/?method=project.pic&id=${x.id}`
         };
       });
     },

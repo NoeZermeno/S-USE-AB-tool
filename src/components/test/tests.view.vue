@@ -36,43 +36,6 @@
                     </v-card-text>
                   </v-card>
                 </v-col>
-                <!-- <v-col cols="6">
-                  <v-card @click="seeSUS = true" outlined>
-                    <v-toolbar dense dark color="#19A08D">
-                      <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center text-h5">
-                        SUS Questionnaire
-                      </v-toolbar-title>
-                      <v-spacer></v-spacer>
-                    </v-toolbar>
-                    <v-card-text class="biggerText"
-                      >The System Usability Scale (SUS) provides a “quick and
-                      dirty”, reliable tool for measuring the usability. It
-                      consists of a 10 item questionnaire with five response
-                      options for respondents; from Strongly agree to Strongly
-                      disagree. Originally created by John Brooke in 1986, it
-                      allows you to evaluate a wide variety of products and
-                      services, including hardware, software, mobile devices,
-                      websites and applications.
-                    </v-card-text>
-                  </v-card>
-                </v-col>
-                <v-col cols="6">
-                  <v-card @click="seeNPS = true" outlined>
-                    <v-toolbar dense dark color="#19A08D">
-                      <v-spacer></v-spacer>
-                      <v-toolbar-title class="text-md-center text-5">
-                        NPS
-                      </v-toolbar-title>
-                      <v-spacer></v-spacer>
-                    </v-toolbar>
-
-                    <v-card-text class="biggerText"
-                      >The Net Promoter Score or NPS is a tool that helps you measure customer satisfaction with a single question, giving you an indicator of growth for your company or product. The NPS evaluates the degree to which a person recommends a certain company, product or service to friends, family or colleagues. The idea is very simple: if you like using a product or doing business with a particular company, you are willing to share that experience with others.
-                    </v-card-text
-                    >
-                  </v-card>
-                </v-col> -->
               </v-row>
             </v-container>
           </v-col>
@@ -80,22 +43,22 @@
       </v-card>
     </v-container>
 
-    <sus-component v-if="seeSUS" :mostrar="seeSUS" :soloLectura="true" @cancelar="seeSUS = false" />
+    <sus-component 
+      v-if="seeSUS" 
+      :mostrar="seeSUS" 
+      :soloLectura="true" 
+      :test="testSus" 
+      @cancelar="seeSUS = false, testSus = null" 
+    />
     <nps-component v-if="seeNPS" :mostrar="seeNPS" :soloLectura="true" @cancelar="seeNPS = false" />
     <acc-component v-if="seeACC" :mostrar="seeACC" :soloLectura="true" @cancelar="seeACC = false" />
+    <questComponent v-if="seeQuest" :mostrar="seeQuest" :soloLectura="true" @cancelar="seeQuest = false" />
     <seeFourComponent 
       v-if="seeFour" 
       :mostrar="seeFour" 
       :soloLectura="true" 
       :test="test"
       @cancelar="seeFour = false, test = null"
-    />
-    <questComponent 
-      v-if="seeQuest" 
-      :mostrar="seeQuest" 
-      :soloLectura="true" 
-      :test="test"
-      @cancelar="seeQuest = false, test = null"
     />
     <!-- <add-component :mostrar="add" @cancelar="add = false" /> -->
     <addNewTest 
@@ -145,6 +108,7 @@ export default {
       add: false,
       tests: [],
       test: null,
+      testSus: null,
       idsBloqued: [1, 2 ,3 , 4, 5],
     };
   },
@@ -179,8 +143,8 @@ export default {
         this.seeFour = true;
       }
       else if(item.type == 'QUESTIONNAIRE'){
-        this.test = item;
-        this.seeQuest = true;
+        this.testSus = item;
+        this.seeSUS = true;
       }
     },
     async eliminar(id) {

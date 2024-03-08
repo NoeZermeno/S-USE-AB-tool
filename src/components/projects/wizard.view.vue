@@ -5,7 +5,8 @@
         <div style="display: flex; justify-content: center">
           <div style="margin: 25px">
             <v-avatar color="surface-variant" size="128" class="mx-n6">
-                <v-img src="https://static.vecteezy.com/system/resources/previews/024/063/069/original/black-file-icon-symbol-free-png.png"></v-img>
+                <v-img v-if="logo" :src="logo"></v-img>
+                <v-img v-else src="https://static.vecteezy.com/system/resources/previews/024/063/069/original/black-file-icon-symbol-free-png.png"></v-img>
             </v-avatar>
           </div>
           <div style="margin:25px; display:flex; align-items: center">
@@ -331,6 +332,7 @@ export default {
   components: {stepOne},
   watch: {},
   mounted() {
+    this.logo = `https://lionware.dev/ari-dasci/webservice/?method=project.pic&id=${this.$route.params.id}`
     //if(this.sessionToken)
     // get proyecto
   },
@@ -550,6 +552,7 @@ export default {
         ],
       categoriesSelected: [],
       color1: "gray",
+      logo: null,
     };
   },
   methods: {
