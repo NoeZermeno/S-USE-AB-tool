@@ -1,167 +1,189 @@
 <template>
   <div>
     <v-container fluid>
-      <v-card >
+      <v-card>
         <div style="display: flex; justify-content: center">
           <div style="margin: 25px">
             <v-avatar color="surface-variant" size="128" class="mx-n6">
-                <v-img v-if="logo" :src="logo"></v-img>
-                <v-img v-else src="https://static.vecteezy.com/system/resources/previews/024/063/069/original/black-file-icon-symbol-free-png.png"></v-img>
+              <v-img v-if="logo" :src="logo"></v-img>
+              <v-img
+                v-else
+                src="https://static.vecteezy.com/system/resources/previews/024/063/069/original/black-file-icon-symbol-free-png.png"
+              ></v-img>
             </v-avatar>
           </div>
-          <div style="margin:25px; display:flex; align-items: center">
-            <h2> Test</h2>
+          <div style="margin: 25px; display: flex; align-items: center">
+            <h2>Test</h2>
           </div>
         </div>
         <div>
           <p style="margin-left: 5px">Projects/Create</p>
         </div>
 
-      <template >
-        <v-stepper v-model="e1">
-          <v-stepper-header style="font-size: x-small">
-            <v-stepper-step :complete="e1 > 1" step="1">
-              Step 1: Set the alternatives
-            </v-stepper-step>
-            <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 2" step="2">
-              Step 2: Set the criteria
-            </v-stepper-step>
-            <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 2.1" step="2.1">
-              Step 2.1: Set the importance of criteria
-            </v-stepper-step>
-            <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 3" step="3">
-              Step 3: Set of users
-            </v-stepper-step>
-            <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 4" step="4">
-              Step 4: Set of roles
-            </v-stepper-step>
-            <v-divider></v-divider>
-            <v-stepper-step :complete="e1 > 4.1" step="4.1">
-              Step 4.1: Set the importance of roles
-            </v-stepper-step>
-          </v-stepper-header>
+        <template>
+          <v-stepper v-model="e1">
+            <v-stepper-header style="font-size: x-small">
+              <v-stepper-step :complete="e1 > 1" step="1">
+                Step 1: Set the alternatives
+              </v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 2" step="2">
+                Step 2: Set the criteria
+              </v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 2.1" step="2.1">
+                Step 2.1: Set the importance of criteria
+              </v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 3" step="3">
+                Step 3: Set of users
+              </v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 4" step="4">
+                Step 4: Set of roles
+              </v-stepper-step>
+              <v-divider></v-divider>
+              <v-stepper-step :complete="e1 > 4.1" step="4.1">
+                Step 4.1: Set the importance of roles
+              </v-stepper-step>
+            </v-stepper-header>
 
-          <v-stepper-items style="height: 700px;">
-            <v-stepper-content style="height:100% !important" step="1" >
-              <div style="height:80% !important">
-                <stepOne
-                  :selected="selected1"
-                  @alternativesChanged="colorStep1"
-                />
-              </div>
-              <div class="boton" style="height:20% !important">  
-                <v-btn dark :color="color1" @click="validaStep1()">Next</v-btn>
-              </div>
-            </v-stepper-content>
+            <v-stepper-items style="min-height: 700px">
+              <!-- TODO
+              <v-stepper-items style="height: 700px;"> -->
+              <v-stepper-content style="height: 100% !important" step="1">
+                <div style="height: 80% !important">
+                  <stepOne
+                    :selected="selected1"
+                    @alternativesChanged="colorStep1"
+                  />
+                </div>
+                <div class="boton" style="position: absolute; bottom: 10px; right: 10px;">
+                  <v-btn dark :color="color1" @click="validaStep1()">
+                    Next
+                  </v-btn>
+                </div>
+              </v-stepper-content>
 
-            <v-stepper-content style="height:100% !important" step="2" >
-              <div style="height:80% !important">
-              <v-card>
-                <v-data-table
-                  :headers="headers2"
-                  :items="data2"
-                  item-key="alias"
-                  class="elevation-1"
-                >
-                  <template v-slot:body="{ items }">
-                    <tbody>
-                      <tr v-for="(item, index) in items" :key="`item-${index}`">
-                        <td style="width: 50px">
-                          <v-simple-checkbox
-                            @click="actionStep2(index, item.id), colorStep2()"
-                            v-model="item.exists"
-                          ></v-simple-checkbox>
-                        </td>
-                        <td style="text-align: left">{{ item.alias }}</td>
-                        <td style="text-align: left">{{ item.name }}</td>
-                        <td style="text-align: left">{{ item.instructions }}</td>
-                      </tr>
-                    </tbody>
-                  </template>
-                </v-data-table>
-              </v-card>
-              </div>
-              <div class="boton" style="height:20% !important">  
-                <v-btn style="margin-right: 20px" @click="e1 = 1">Return</v-btn>
-              <v-btn dark :color="colorStep2()" @click="validaStep2()">Next</v-btn>
-              </div>
-            </v-stepper-content>
-
-            <v-stepper-content style="height:100% !important" step="2.1" >
-              <div style="height:80% !important">
-              <v-card>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn small color="success">
-                  CI=0.09
-                </v-btn>
-              </v-card-actions>
-              <v-simple-table>
-                <template v-slot:default>
-                  <thead>
-                      <th>Criteria</th>
-                      <th v-for="item of selectedData2" :key="item.alias">{{ item.alias }}</th>
-                  </thead>
-                  <tbody>
-                      <tr v-for="(itemx, x) in selectedData2" :key="itemx.alias">
-                          <td>{{ itemx.alias }}</td>
-                          <td v-for="(itemy, y) in selectedData2" :key="itemy.alias">
-                              <v-select
-                                  v-model="values[x][y]"
-                                  :items="corelation"
-                                  item-text="title"
-                                  item-value="value"
-                                  density="compact"
-                                  :disabled="x == y"
-                                  @change="val => onChangeValues(x, y, val)"
-                              ></v-select>
-                          </td>
-                      </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
-              </v-card>
-              </div>
-              <div class="boton" style="height:20% !important">  
-                <v-btn style="margin-right: 20px"  @click="e1 = 2">Return</v-btn>
-                <v-btn dark :color="colorStep3()" @click="validaStep3()">Next</v-btn>
-              </div>
-            </v-stepper-content>
-
-            
-            <v-stepper-content style="height:100% !important" step="3" >
-              <div style="height:80% !important">
-              <v-card>
-                  <div class="d-flex align-center justify-center">
-                      <div class="d-flex flex-column align-center">
-                          <v-img width="150" src="/images/experts.png"></v-img>
-                          <div>Experts</div>
-                      </div>
-                      <div style="min-width: 50%">
-                          <v-slider
-                              v-model="percentageE"
-                              class="mx-10 mt-6"
-                              step="1"
-                              max="100"
-                              color="blue-lighten-1"
-                              track-color="blue-lighten-1"
-                              @change="setValueExperts()"
-                          />
-                      </div>
-                      <div>
-                          <h2>{{percentageE}}%</h2>
-                      </div>
+              <v-stepper-content style="height: 100% !important" step="2">
+                <div style="height: 80% !important">
+                  <v-card style="margin-bottom: 15px">
+                    <v-data-table
+                      :headers="headers2"
+                      :items="data2"
+                      item-key="alias"
+                      class="elevation-1"
+                    >
+                      <template v-slot:body="{ items }">
+                        <tbody>
+                          <tr v-for="(item, index) in items" :key="`item-${index}`">
+                            <td style="width: 50px">
+                              <v-simple-checkbox
+                                @click="actionStep2(index, item.id), colorStep2()"
+                                v-model="item.exists"
+                              ></v-simple-checkbox>
+                            </td>
+                            <td style="text-align: left">{{ item.alias }}</td>
+                            <td style="text-align: left">{{ item.name }}</td>
+                            <td style="text-align: left">
+                              {{ item.instructions }}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-data-table>
+                  </v-card>
+                  <div class="boton" style="position: absolute; bottom: 10px; right: 10px;">
+                    <v-btn style="margin-right: 20px" @click="e1 = 1">
+                      Return
+                    </v-btn>
+                    <v-btn dark :color="colorStep2()" @click="validaStep2()">
+                      Next
+                    </v-btn>
                   </div>
-                  <div class="d-flex ma-10 align-center justify-center">
-                          <div class="d-flex flex-column align-center">
-                              <v-img width="150" src="/images/end-users.png"></v-img>
-                              <div>End users</div>
+                </div>
+              </v-stepper-content>
+
+              <v-stepper-content style="height: 100% !important" step="2.1">
+                <div style="height: 80% !important">
+                  <v-card style="margin-bottom: 15px">
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn small color="success"> CI=0.09 </v-btn>
+                    </v-card-actions>
+                    <v-simple-table>
+                      <template v-slot:default>
+                        <thead>
+                          <th>Criteria</th>
+                          <th v-for="item of selectedData2" :key="item.alias">
+                            {{ item.alias }}
+                          </th>
+                        </thead>
+                        <tbody>
+                          <tr v-for="(itemx, x) in selectedData2" :key="itemx.alias">
+                            <td>{{ itemx.alias }}</td>
+                            <td v-for="(itemy, y) in selectedData2" :key="itemy.alias">
+                              <v-select
+                                v-model="values[x][y]"
+                                :items="corelation"
+                                item-text="title"
+                                item-value="value"
+                                density="compact"
+                                :disabled="x == y"
+                                @change="(val) => onChangeValues(x, y, val)"
+                              ></v-select>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+                  </v-card>
+                  <div class="boton" style="position: absolute; bottom: 10px; right: 10px;">
+                    <v-btn style="margin-right: 20px" @click="e1 = 2">
+                      Return
+                    </v-btn>
+                    <v-btn dark :color="colorStep3()" @click="validaStep3()">
+                      Next
+                    </v-btn>
+                  </div>
+                </div>
+              </v-stepper-content>
+
+              <v-stepper-content style="height: 100% !important" step="3">
+                <v-container>
+                  <div style="height: 80% !important">
+                    <v-card flat style="margin-bottom: 35px">
+                      <v-row>
+                        <v-col cols="6">
+                          <div class="d-flex align-center justify-center">
+                            <div class="d-flex flex-column align-center">
+                              <v-img width="100" src="/images/experts.png"></v-img>
+                              <!-- https://lionware.dev/S-USE-AB-TOOL-DSS/images/experts.png -->
+                              <div>Experts</div>
+                            </div>
+                            <div style="min-width: 50%">
+                              <v-slider
+                                v-model="percentageE"
+                                class="mx-10 mt-6"
+                                step="1"
+                                max="100"
+                                color="blue-lighten-1"
+                                track-color="blue-lighten-1"
+                                @change="setValueExperts()"
+                              />
+                            </div>
+                            <div>
+                              <h2>{{ percentageE }}%</h2>
+                            </div>
                           </div>
-                          <div style="min-width: 50%">
+                        </v-col>
+                        <v-col cols="6">
+                          <div style="margin-top: auto" class="d-flex align-center justify-center">
+                            <div class="d-flex flex-column align-center">
+                              <v-img width="100" src="/images/end-users.png"></v-img>
+                              <div>End users</div>
+                            </div>
+                            <div style="min-width: 50%">
                               <v-slider
                                 v-model="percentageU"
                                 class="mx-10 mt-6"
@@ -171,75 +193,97 @@
                                 track-color="blue-lighten-1"
                                 @change="setValueUsers()"
                               />
+                            </div>
+                            <div>
+                              <h2>{{ percentageU }}%</h2>
+                            </div>
                           </div>
-                          <div><h2>{{percentageU}}%</h2></div> 
-                      </div>
-              </v-card>
-              </div>
-               <div class="boton" style="height:20% !important">  
-                <v-btn style="margin-right: 20px" @click="e1 = 2.1">Return</v-btn>
-              <v-btn dark color="#19A08D" @click="validaStep4()">Next</v-btn>
-              </div>
+                        </v-col>
+                      </v-row>
+                      <addEvaluators />
+                    </v-card>
+                    <div class="boton" style="position: absolute; bottom: 10px; right: 10px;">
+                      <v-btn style="margin-right: 20px" @click="e1 = 2.1">
+                        Return
+                      </v-btn>
+                      <v-btn dark color="#19A08D" @click="validaStep4()">
+                        Next
+                      </v-btn>
+                    </div>
+                  </div>
+                </v-container>
+              </v-stepper-content>
 
-            </v-stepper-content>
-
-             <v-stepper-content style="height:100% !important" step="4" >
-              <div style="height:80% !important">
-              <v-card>
-                <div class="d-flex flex-wrap align-content-space-evenly">
-                    <v-list style="width: 100%">
-                      <v-list-item-group v-model="selectedRoles" multiple>
-                          <v-row >
+              <v-stepper-content style="height: 100% !important" step="4">
+                <div style="height: 80% !important">
+                  <v-card style="margin-bottom: 15px">
+                    <div class="d-flex flex-wrap align-content-space-evenly">
+                      <v-list style="width: 100%">
+                        <v-list-item-group v-model="selectedRoles" multiple>
+                          <v-row>
                             <v-col v-for="(v, k) of groupedRoles" :key="k" sm="3" md="3" lg="3">
-                              <h4 v-bind:style="{'text-align': 'center', 'border-bottom': '1px solid black', 'background-color': headersRoles[k-1].color}">{{headersRoles[k-1].name}}</h4>
+                              <h4
+                                v-bind:style="{
+                                  'text-align': 'center',
+                                  'border-bottom': '1px solid black',
+                                  'background-color': headersRoles[k - 1].color,
+                                }"
+                              >
+                                {{ headersRoles[k - 1].name }}
+                              </h4>
                               <template v-for="e in v">
                                 <v-list-item
                                   :key="e.id"
                                   variant="elevated"
-                                  :color="roleCategoriesMap[e.role_category].color"
+                                  :color="
+                                    roleCategoriesMap[e.role_category].color
+                                  "
                                   @click="setRolesInfo(e)"
                                 >
                                   <v-list-item-icon>
                                     <img style="height: 100px" :src="e.icon" />
                                   </v-list-item-icon>
-                                  <v-list-item-title>{{e.title}}
-                                    <v-list-item-subtitle>{{e.subtitle}}</v-list-item-subtitle>
+                                  <v-list-item-title>
+                                    {{ e.title }}
+                                    <v-list-item-subtitle>
+                                      {{e.subtitle}}
+                                    </v-list-item-subtitle>
                                   </v-list-item-title>
-                                  
                                 </v-list-item>
                               </template>
                             </v-col>
                           </v-row>
-                        
-                      </v-list-item-group>
-                    </v-list>
+                        </v-list-item-group>
+                      </v-list>
+                    </div>
+                  </v-card>
+                  <div class="boton" style="position: absolute; bottom: 10px; right: 10px;">
+                    <v-btn style="margin-right: 20px" @click="e1 = 3">
+                      Return
+                    </v-btn>
+                    <v-btn dark :color="colorStep5()" @click="validaStep5()">
+                      Next
+                    </v-btn>
+                  </div>
                 </div>
-            </v-card>
-            </div>
-              
-            <div class="boton" style="height:20% !important">  
-                <v-btn style="margin-right: 20px" @click="e1 = 3">Return</v-btn>
-              <v-btn dark :color="colorStep5()" @click="validaStep5()">Next</v-btn>
-            </div>
-            </v-stepper-content>
-          <v-stepper-content style="height:100% !important" step="4.1" >
-              <div style="height:80% !important">
-              <v-card>
-                <v-card class="d-flex flex-wrap align-center">
-                    <div style="width:100%" v-for="(v, i) in categoriesSelected" :key="i" class="w-50 pa-2">
+              </v-stepper-content>
+              <v-stepper-content style="height: 100% !important" step="4.1">
+                <div style="height: 80% !important">
+                    <v-card flat style="margin-bottom: 15px" class="d-flex flex-wrap align-center">
+                      <div style="width: 100%" v-for="(v, i) in categoriesSelected" :key="i" class="w-50 pa-2">
                         <v-card class="d-flex pa-2 align-center justify-space-between">
-                            <v-slider
-                                style="align-items: baseline"
-                                class="w-75"
-                                v-model="v.value"
-                                :prepend-icon="v.icon"
-                                :color="v.color"
-                                :label="v.title"
-                                step="1"
-                                max="100"
-                                track-color="grey"
-                                @change="slidersValue(v)"
-                            >
+                          <v-slider
+                            style="align-items: baseline"
+                            class="w-75"
+                            v-model="v.value"
+                            :prepend-icon="v.icon"
+                            :color="v.color"
+                            :label="v.title"
+                            step="1"
+                            max="100"
+                            track-color="grey"
+                            @change="slidersValue(v)"
+                          >
                             <template v-slot:append>
                               <v-text-field
                                 v-model="v.value"
@@ -250,48 +294,23 @@
                                 outlined
                               ></v-text-field>
                             </template>
-                            </v-slider>
+                          </v-slider>
                         </v-card>
-                    </div>
-                </v-card>
-                <!-- <v-slider
-                  v-model="sliderSpeak"
-                  prepend-icon="mdi-volume-high"
-                  step="1"
-                  max="100"
-                  color="yellow"
-                  track-color="grey"
-                  label="Speak"
-                ></v-slider>
-                <v-slider
-                  v-model="sliderTouch"
-                  prepend-icon="mdi-volume-high"
-                  step="1"
-                  max="100"
-                  color="green"
-                  track-color="grey"
-                  label="Touch"
-                ></v-slider>
-                <v-slider
-                  v-model="sliderHear"
-                  prepend-icon="mdi-volume-high"
-                  step="1"
-                  max="100"
-                  color="blue"
-                  track-color="grey"
-                  label="Hear"
-                ></v-slider> -->
-              </v-card>
-              </div>
-              <div class="boton" style="height:20% !important">  
-                <v-btn style="margin-right: 20px" @click="e1 = 4">Return</v-btn>
-              <v-btn dark color="#19A08D" @click="validaStep6()">Finish</v-btn>
-              </div>
-
-            </v-stepper-content>
-          </v-stepper-items>
-        </v-stepper>
-      </template>
+                      </div>
+                    </v-card>
+                  <div class="boton" style="position: absolute; bottom: 10px; right: 10px;">
+                    <v-btn style="margin-right: 20px" @click="e1 = 4">
+                      Return
+                    </v-btn>
+                    <v-btn dark color="#19A08D" @click="validaStep6()">
+                      Finish
+                    </v-btn>
+                  </div>
+                </div>
+              </v-stepper-content>
+            </v-stepper-items>
+          </v-stepper>
+        </template>
       </v-card>
     </v-container>
   </div>
@@ -302,37 +321,37 @@ import { serviceToken } from "../../helpers/service.service";
 import { mapGetters } from "vuex";
 import stepOne from "./stepOne";
 import _ from "underscore";
+import addEvaluators from "./addEvaluators.vue";
 // import { DateTime } from 'luxon'
 export default {
   name: "wizard",
   computed: {
     ...mapGetters(["sessionToken"]),
-    groupedRoles(){
-      if(this.roles.length == 0) return [];
-      else{
+    groupedRoles() {
+      if (this.roles.length == 0) return [];
+      else {
         let acc = this.roles.reduce((acc, curr) => {
           if (!(curr.role_category in acc)) {
-              acc[curr.role_category] = [];
+            acc[curr.role_category] = [];
           }
           acc[curr.role_category].push(curr);
           return acc;
-        }, {})
+        }, {});
         return acc;
       }
     },
-    roleCategoriesMap(){
+    roleCategoriesMap() {
       let acc = this.roleCategories.reduce((acc, curr) => {
-          acc[curr.id] = curr;
-          return acc;
-      }, {})
+        acc[curr.id] = curr;
+        return acc;
+      }, {});
       return acc;
-    }
-        
+    },
   },
-  components: {stepOne},
+  components: { stepOne, addEvaluators },
   watch: {},
   mounted() {
-    this.logo = `https://lionware.dev/ari-dasci/webservice/?method=project.pic&id=${this.$route.params.id}`
+    this.logo = `https://lionware.dev/ari-dasci/webservice/?method=project.pic&id=${this.$route.params.id}`;
     //if(this.sessionToken)
     // get proyecto
   },
@@ -515,41 +534,41 @@ export default {
       ],
       roleCategories: [
         {
-            id: 1,
-            title: 'See',
-            icon: 'mdi mdi-eye-off',
-            color: 'red'
+          id: 1,
+          title: "See",
+          icon: "mdi mdi-eye-off",
+          color: "red",
         },
         {
-            id: 2,
-            title: 'Touch',
-            icon: 'mdi mdi-account-injury',
-            color: 'green'
+          id: 2,
+          title: "Touch",
+          icon: "mdi mdi-account-injury",
+          color: "green",
         },
         {
-            id: 3,
-            title: 'Hear',
-            icon: 'mdi mdi-ear-hearing-off',
-            color: 'blue'
+          id: 3,
+          title: "Hear",
+          icon: "mdi mdi-ear-hearing-off",
+          color: "blue",
         },
         {
-            id: 4,
-            title: 'Speak',
-            icon: 'mdi mdi-account-voice-off',
-            color: 'yellow'
-        }
+          id: 4,
+          title: "Speak",
+          icon: "mdi mdi-account-voice-off",
+          color: "yellow",
+        },
       ],
       selectedRoles: [],
       selectedRolesInfo: [],
       sliderSpeak: 100,
       sliderTouch: 100,
       sliderHear: 100,
-      headersRoles: [ 
-        {name: "See", color: "#F44336"}, 
-        {name: "Toch", color: "#4CAF50"}, 
-        {name: "Hear", color: "#2196F3"}, 
-        {name: "Speak", color: "#ffeb3b "}
-        ],
+      headersRoles: [
+        { name: "See", color: "#F44336" },
+        { name: "Toch", color: "#4CAF50" },
+        { name: "Hear", color: "#2196F3" },
+        { name: "Speak", color: "#ffeb3b " },
+      ],
       categoriesSelected: [],
       color1: "gray",
       logo: null,
@@ -565,7 +584,6 @@ export default {
         if (serverResponse.status == "error")
           alert(`${serverResponse.message}`);
         else return serverResponse;
-
       } catch (error) {
         this.loading = false;
         alert("Sorry, failed connection");
@@ -575,23 +593,27 @@ export default {
     async validaStep1() {
       this.colorStep1(this.selected1);
       if (this.next) {
-
         this.selected2 = [];
 
-        this.data2 =  await this.funcion({method: 'config.tests.get', project: parseInt(this.$route.params.id)});
-        const criteriaSelected = await this.funcion({method: 'project.tests.get', project: parseInt(this.$route.params.id)});
-        criteriaSelected.forEach(c => {
+        this.data2 = await this.funcion({
+          method: "config.tests.get",
+          project: parseInt(this.$route.params.id),
+        });
+        const criteriaSelected = await this.funcion({
+          method: "project.tests.get",
+          project: parseInt(this.$route.params.id),
+        });
+        criteriaSelected.forEach((c) => {
           let index = this.data2.findIndex((x) => x.id == c);
           this.selected2.push(index);
         });
-        this.data2 = this.data2.map(c => {
+        this.data2 = this.data2.map((c) => {
           let exists = false;
-          if(criteriaSelected.includes(c.id)) exists = true;
-          return {...c, exists}
-        })
+          if (criteriaSelected.includes(c.id)) exists = true;
+          return { ...c, exists };
+        });
         this.e1 = 2;
-      }
-      else alert("At least two alternatives must be selected");
+      } else alert("At least two alternatives must be selected");
     },
     colorStep1(alternativesSelected) {
       this.selected1 = alternativesSelected;
@@ -611,23 +633,31 @@ export default {
         this.selectedData2 = [];
         this.values = [];
         for (let i = 0; i < this.selected2.length; i++) {
-            this.selectedData2.push(this.data2[this.selected2[i]]);
+          this.selectedData2.push(this.data2[this.selected2[i]]);
         }
-        this.values = Array.from({ length: this.selectedData2.length }, () => 1).map(() => Array.from({ length: this.selectedData2.length }, () => 1));
+        this.values = Array.from({ length: this.selectedData2.length }, 
+          () => 1).map(() => Array.from({ length: this.selectedData2.length }, () => 1));
         this.e1 = 2.1;
-      }else alert("At least two alternatives must be selected");
+      } else alert("At least two alternatives must be selected");
     },
-    async actionStep2(index, idItem){
+    async actionStep2(index, idItem) {
       if (index && idItem && this.selected2.includes(index)) {
-        const data = {method: 'project.tests.unset', project: parseInt(this.$route.params.id), test: idItem};
+        const data = {
+          method: "project.tests.unset",
+          project: parseInt(this.$route.params.id),
+          test: idItem,
+        };
         await this.funcion(data);
         let i = this.selected2.findIndex((i) => i == index);
-        this.selected2.splice(i, 1)
-
-      } else if(index && idItem && !this.selected2.includes(index)) {
-        const data = {method: 'project.tests.set', project: parseInt(this.$route.params.id), test: idItem};
+        this.selected2.splice(i, 1);
+      } else if (index && idItem && !this.selected2.includes(index)) {
+        const data = {
+          method: "project.tests.set",
+          project: parseInt(this.$route.params.id),
+          test: idItem,
+        };
         await this.funcion(data);
-        this.selected2.push(index)
+        this.selected2.push(index);
       }
     },
     colorStep2() {
@@ -639,31 +669,9 @@ export default {
         return "gray";
       }
     },
-    async eliminar2(item) {
-      var result = confirm(`Are you sure to delete ${item.alias}?`);
-      if (result == true) {
-        try {
-          this.loading = true;
-          const data = {
-            // 'method':'project.delete',
-            id: item.id,
-          };
-          const serverResponse = await serviceToken(data);
-          this.loading = false;
-          console.log(serverResponse);
-          let index = this.data2.findIndex((x) => x.id == item.id);
-          if (index >= 0) this.data2.splice(index, 1);
-        } catch (error) {
-          // console.log(error);
-          this.loading = false;
-        }
-      } else {
-        return false;
-      }
-    },
 
     // ------------- STEP 3
-    onChangeValues(x, y, value){
+    onChangeValues(x, y, value) {
       if (x == y) return;
       this.values[x][y] = value;
       this.values[y][x] = value;
@@ -677,107 +685,109 @@ export default {
         return "gray";
       }
     },
-    async validaStep3(){
-      const data = {
-        method: 'project.userScale.get', 
-        project: parseInt(this.$route.params.id),
-      }
+    async validaStep3() {
+      const data = { method: "project.userScale.get", project: parseInt(this.$route.params.id)};
       const serverResponse = await this.funcion(data);
-      
+
       this.percentageE = serverResponse.experts;
       this.percentageU = serverResponse.endusers;
       this.e1 = 3;
     },
 
     // ------------- STEP 4
-    async setValueExperts(){
+    async setValueExperts() {
       const data = {
-        method: 'project.userScale.set', 
+        method: "project.userScale.set",
         project: parseInt(this.$route.params.id),
-        user: 'EXPERT',
-        value: this.percentageE
-      }
+        user: "EXPERT",
+        value: this.percentageE,
+      };
       await this.funcion(data);
     },
-    async setValueUsers(){
+    async setValueUsers() {
       const data = {
-        method: 'project.userScale.set', 
+        method: "project.userScale.set",
         project: parseInt(this.$route.params.id),
-        user: 'ENDUSER',
-        value: this.percentageU
-      }
+        user: "ENDUSER",
+        value: this.percentageU,
+      };
       await this.funcion(data);
     },
-    async validaStep4(){
+    async validaStep4() {
       this.setValueExperts();
       this.setValueUsers();
 
-      this.roles = await this.funcion({method: 'config.roles.get', project: parseInt(this.$route.params.id)});
-      const rolesSelected = await this.funcion({method: 'project.roles.get', project: parseInt(this.$route.params.id)});
-      rolesSelected.forEach(r => {
-          let index = this.roles.findIndex((x) => x.id == r);
-          this.selectedRoles.push(index);
-          this.selectedRolesInfo.push(this.roles[index]);
-        });
+      this.roles = await this.funcion({method: "config.roles.get", project: parseInt(this.$route.params.id)});
+      const rolesSelected = await this.funcion({method: "project.roles.get",project: parseInt(this.$route.params.id)});
+      rolesSelected.forEach((r) => {
+        let index = this.roles.findIndex((x) => x.id == r);
+        this.selectedRoles.push(index);
+        this.selectedRolesInfo.push(this.roles[index]);
+      });
       this.e1 = 4;
     },
 
     // ------------- STEP 5
     colorStep5() {
       if (this.selectedRoles.length >= 2) {
-        return "#19A08D"
-      }else{
-        return "gray"
+        return "#19A08D";
+      } else {
+        return "gray";
       }
     },
-    async setRolesInfo(e){
-      const index = this.selectedRolesInfo.findIndex(i => i.id == e.id);
-      if(index > -1) {
-        await this.funcion({method: 'project.roles.unset', project: parseInt(this.$route.params.id), role: e.id});
-        this.selectedRolesInfo.splice(index, 1)
-      }
-      else {
-        await this.funcion({method: 'project.roles.set', project: parseInt(this.$route.params.id), role: e.id});
+    async setRolesInfo(e) {
+      const index = this.selectedRolesInfo.findIndex((i) => i.id == e.id);
+      if (index > -1) {
+        await this.funcion({method: "project.roles.unset", project: parseInt(this.$route.params.id), role: e.id});
+        this.selectedRolesInfo.splice(index, 1);
+      } else {
+        await this.funcion({method: "project.roles.set", project: parseInt(this.$route.params.id), role: e.id});
         this.selectedRolesInfo.push(e);
       }
     },
-    async validaStep5(){
+    async validaStep5() {
       if (this.selectedRolesInfo.length >= 2) {
         this.categoriesSelected = [];
-        const categoriesSaved = await this.funcion({method: 'project.roleScale.get', project: parseInt(this.$route.params.id)});
+        const categoriesSaved = await this.funcion({
+          method: "project.roleScale.get",
+          project: parseInt(this.$route.params.id),
+        });
         let activeCategories = [];
         for (let i = 0; i < this.selectedRolesInfo.length; i++) {
-          const idCategory = this.roles[this.selectedRolesInfo[i].id-1].role_category;
+          const idCategory =
+            this.roles[this.selectedRolesInfo[i].id - 1].role_category;
           activeCategories.push(idCategory);
-          const category = this.roleCategories.find(c => c.id == idCategory);
+          const category = this.roleCategories.find((c) => c.id == idCategory);
           const valueSaved = categoriesSaved[idCategory];
-          valueSaved > 0 ? category.value = valueSaved : category.value = 100;
-          const found = this.categoriesSelected.some(c => c.id === category.id);
+          valueSaved > 0 ? (category.value = valueSaved) : (category.value = 100);
+          const found = this.categoriesSelected.some(
+            (c) => c.id === category.id
+          );
           if (!found) this.categoriesSelected.push(category);
         }
         const categoriesDiference = _.difference([1, 2, 3, 4], activeCategories);
-        for(const c of categoriesDiference){
-          await this.slidersValue({id: c, value: 0});
+        for (const c of categoriesDiference) {
+          await this.slidersValue({ id: c, value: 0 });
         }
         this.e1 = 4.1;
-      }else alert("At least two alternatives must be selected");
+      } else alert("At least two alternatives must be selected");
     },
 
     // ------------- STEP 6
-    async slidersValue(value){
+    async slidersValue(value) {
       const data = {
-        method: 'project.roleScale.set', 
+        method: "project.roleScale.set",
         project: parseInt(this.$route.params.id),
         rolecategory: value.id,
-        value: value.value
-      }
+        value: value.value,
+      };
       await this.funcion(data);
     },
-    async validaStep6(){
-      for(const c of this.categoriesSelected){
-        await this.slidersValue({id: c.id, value: c.value});
+    async validaStep6() {
+      for (const c of this.categoriesSelected) {
+        await this.slidersValue({ id: c.id, value: c.value });
       }
-      this.$router.push('/projects');
+      this.$router.push("/projects");
     },
   },
 };
@@ -790,14 +800,13 @@ export default {
     align-items: flex-end;
      
   } */
-  .boton{
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-  }
+.boton {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
 
-  .v-stepper__wrapper{
-    height: 100% !important;
-
-  }
+.v-stepper__wrapper {
+  height: 100% !important;
+}
 </style>

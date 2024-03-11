@@ -2,21 +2,6 @@
   <div>
     <v-container fluid>
       <v-card flat style="margin-bottom: 50px" :loading="loading">
-        <!-- <v-system-bar
-          ><v-spacer></v-spacer><b class="text-h5">Own projects</b
-          ><v-spacer></v-spacer
-        ></v-system-bar> -->
-        <v-row>
-          <v-col>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn larger color="#19A08D" @click="agregar = true" dark>
-                <v-icon> mdi-plus </v-icon> add project
-              </v-btn>
-            </v-card-actions>
-          </v-col>
-        </v-row>
-
         <v-row align="center" justify="center">
           <v-col>
             <v-container>
@@ -35,11 +20,7 @@
                         </v-list-item-subtitle>
                       </v-list-item-content>
 
-                      <v-list-item-avatar tile size="80">
-                        <v-avatar style="width: 80px; height: 80px" color="#8AA7FF">
-                          <v-img :src="variant.image" cover></v-img>
-                        </v-avatar>
-                      </v-list-item-avatar>
+                      <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
                     </v-list-item>
 
                     <v-card-actions>
