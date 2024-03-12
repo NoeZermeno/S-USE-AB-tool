@@ -11,7 +11,7 @@
                     <v-list-item three-line>
                       <v-list-item-content>
                         <v-list-item-title class="text-h5 mb-1">
-                          <router-link :to="'/project/' + variant.id + '/wizard'" class="link">
+                          <router-link :to="'/project/' + variant.id + '/quizzes'" class="link">
                             {{ variant.name }}
                           </router-link>
                         </v-list-item-title>
@@ -19,18 +19,12 @@
                           Begin: {{ variant.inicio }}
                         </v-list-item-subtitle>
                       </v-list-item-content>
-
-                      <v-list-item-avatar tile size="80" color="grey"></v-list-item-avatar>
+                      <v-list-item-avatar tile size="80">
+                        <v-avatar style="width: 80px; height: 80px" color="#8AA7FF">
+                          <v-img :src="variant.image" cover></v-img>
+                        </v-avatar>
+                      </v-list-item-avatar>
                     </v-list-item>
-
-                    <v-card-actions>
-                      <v-btn text @click="editar(variant)">
-                        <v-icon dark> mdi-table-edit </v-icon> edit
-                      </v-btn>
-                      <v-btn text @click="eliminar(variant.id)">
-                        <v-icon dark> mdi-delete </v-icon> delete
-                      </v-btn>
-                    </v-card-actions>
                   </v-card>
                 </v-col>
               </v-row>
@@ -39,25 +33,10 @@
         </v-row>
       </v-card>
     </v-container>
-    <form-project
-      v-if="agregar"
-      :mostrar="agregar"
-      :editarProject="editarProject"
-      @update="getProjects()"
-      @cancelar="(agregar = false), (editarProject = null)"
-    />
-    <subscribeProject
-      v-if="subscribir"
-      :mostrar="subscribir"
-      @update="getProjects()"
-      @cancelar="subscribir = false"
-    />
   </div>
 </template>
 <script>
 import { serviceToken } from "../../helpers/service.service";
-import formProject from "./formProject.vue";
-import subscribeProject from "./subscribeProject.vue";
 import { mapGetters } from "vuex";
 
 import { DateTime } from "luxon";
@@ -76,7 +55,7 @@ export default {
       });
     },
   },
-  components: { formProject, subscribeProject },
+  components: {},
   mounted() {
     if (this.sessionToken) this.getProjects();
   },
@@ -94,47 +73,20 @@ export default {
       try {
         this.loading = true;
         const data = {
-          method: "project.get",
+          method: "evaluations.projects.list",
         };
         const serverResponse = await serviceToken(data);
         this.loading = false;
         if (serverResponse.status == "error")
-          alert(
-            `${serverResponse.message}`
-          ); //TODO --> REVISAR QUE FUNCIONE ESTE ERROR
+          alert(`${serverResponse.message}`);
         else this.projects = serverResponse;
       } catch (error) {
-        // console.log(error);
         this.loading = false;
         localStorage.removeItem("token");
         sessionStorage.removeItem("token");
         this.$store.dispatch("setSessionToken", null);
         this.$router.push("/login");
       }
-    },
-    async eliminar(id) {
-      var result = confirm("Are you sure to delete?");
-      if (result == true) {
-        try {
-          this.loading = true;
-          const data = {
-            method: "project.delete",
-            id: id,
-          };
-          await serviceToken(data);
-          this.loading = false;
-          let index = this.projects.findIndex((x) => x.id == id);
-          if (index >= 0) this.projects.splice(index, 1);
-        } catch (error) {
-          // console.log(error);
-          this.loading = false;
-        }
-      } else {
-        return false;
-      }
-    },
-    editar(item) {
-      (this.agregar = true), (this.editarProject = item);
     },
   },
 };
