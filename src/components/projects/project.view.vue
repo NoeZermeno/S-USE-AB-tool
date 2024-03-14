@@ -65,18 +65,11 @@
       @update="getProjects()"
       @cancelar="(agregar = false), (editarProject = null)"
     />
-    <subscribeProject
-      v-if="subscribir"
-      :mostrar="subscribir"
-      @update="getProjects()"
-      @cancelar="subscribir = false"
-    />
   </div>
 </template>
 <script>
 import { serviceToken } from "../../helpers/service.service";
 import formProject from "./formProject.vue";
-import subscribeProject from "./subscribeProject.vue";
 import { mapGetters } from "vuex";
 
 import { DateTime } from "luxon";
@@ -95,7 +88,7 @@ export default {
       });
     },
   },
-  components: { formProject, subscribeProject },
+  components: { formProject },
   mounted() {
     if (this.sessionToken) this.getProjects();
   },

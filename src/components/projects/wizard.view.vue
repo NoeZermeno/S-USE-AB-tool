@@ -718,6 +718,12 @@ export default {
       this.setValueUsers();
 
       this.roles = await this.funcion({method: "config.roles.get", project: parseInt(this.$route.params.id)});
+      this.roles = this.roles.map((x) => {
+        return { 
+          ...x,
+          icon: `https://lionware.dev/ari-dasci/webservice/?method=config.roles.pic&id=${x.id}`
+        };
+      });
       const rolesSelected = await this.funcion({method: "project.roles.get",project: parseInt(this.$route.params.id)});
       rolesSelected.forEach((r) => {
         let index = this.roles.findIndex((x) => x.id == r);

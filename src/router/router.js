@@ -31,7 +31,7 @@ export default new Router({
         { path: '/roles',name: 'roles', component: RolesView },
         { path: '/reports',name: 'reports', component: ReportsView },
         { path: '/test', name:'tests', component: TestView },
-        { path: '/project/:id/quizzes', name:'allQuiz',  component:AllQuizView },
+        { path: '/project/:id/quizzes/:idRole', name:'allQuiz',  component:AllQuizView },
       ]
     },
     {

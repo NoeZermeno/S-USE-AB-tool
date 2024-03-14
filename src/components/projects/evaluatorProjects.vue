@@ -11,9 +11,7 @@
                     <v-list-item three-line>
                       <v-list-item-content>
                         <v-list-item-title class="text-h5 mb-1">
-                          <router-link :to="'/project/' + variant.id + '/quizzes'" class="link">
-                            {{ variant.name }}
-                          </router-link>
+                          <a @click="selectRole(variant)">{{variant.name}} </a>
                         </v-list-item-title>
                         <v-list-item-subtitle class="biggerText">
                           Begin: {{ variant.inicio }}
@@ -33,11 +31,20 @@
         </v-row>
       </v-card>
     </v-container>
+    <roleSelectorComponent
+      v-if="roleSelection"
+      :mostrar="roleSelection"
+      :rolesSelectable="rolesSelectable"
+      :idProject="idProject"
+      @goToQuizzes="changeView"
+      @cancelar="roleSelection = false"
+    />
   </div>
 </template>
 <script>
 import { serviceToken } from "../../helpers/service.service";
 import { mapGetters } from "vuex";
+import roleSelectorComponent from "./roleSelector.vue";
 
 import { DateTime } from "luxon";
 export default {
@@ -55,7 +62,7 @@ export default {
       });
     },
   },
-  components: {},
+  components: { roleSelectorComponent },
   mounted() {
     if (this.sessionToken) this.getProjects();
   },
@@ -65,29 +72,40 @@ export default {
       agregar: false,
       subscribir: false,
       projects: [],
-      editarProject: null,
+      roleSelection: false,
+      rolesSelectable: [],
+      idProject: null,
     };
   },
   methods: {
-    async getProjects() {
+    async funcion(data) {
       try {
         this.loading = true;
-        const data = {
-          method: "evaluations.projects.list",
-        };
         const serverResponse = await serviceToken(data);
         this.loading = false;
+
         if (serverResponse.status == "error")
           alert(`${serverResponse.message}`);
-        else this.projects = serverResponse;
+        else return serverResponse;
       } catch (error) {
         this.loading = false;
-        localStorage.removeItem("token");
-        sessionStorage.removeItem("token");
-        this.$store.dispatch("setSessionToken", null);
-        this.$router.push("/login");
+        alert("Sorry, failed connection");
       }
     },
+    async getProjects() {
+        const data = { method: "evaluations.projects.list" };
+        this.projects = await serviceToken(data);
+    },
+    async selectRole(variant) {
+      const data = { method: "evaluations.roles.selectable", project: variant.id};
+      this.rolesSelectable = await serviceToken(data);
+      this.idProject = variant.id;
+      this.roleSelection = true;
+    },
+    changeView(route){
+      this.roleSelection = false;
+      this.$router.push(route);
+    }
   },
 };
 </script>
