@@ -48,11 +48,10 @@
                     <v-text-field
                       v-model="item.time"
                       type="number"
-                      label="Select seconds"
-                      step=".1"
+                      label="Seconds"
+                      step="1"
                       min="0"
                       max="200"
-                      suffix="seconds"
                       :disabled="soloLectura"
                     ></v-text-field>
                   </td>
@@ -72,8 +71,15 @@
             </v-data-table>
           </v-card>
         </v-row>
+        <v-row v-if="!soloLectura" justify="end">
+          <v-card-actions>
+            <v-btn small dark outlined color="#19A08D" class="ml-1" @click="$emit('cancelar')">Cancel
+            </v-btn>
+            <v-btn @click="saveAnswers()" small color="#19A08D" :disabled="loading" :loading="loading"> save </v-btn>
+          </v-card-actions>
+        </v-row>
       </v-container>
-      <v-container v-if="test">
+      <v-container v-if="test && soloLectura">
         <questions-component 
           v-if="test" 
           :questions="questions" 
@@ -91,16 +97,13 @@ import { serviceToken } from "../../helpers/service.service";
 import questionsComponent from "./questions.vue";
 export default {
   name: "card4",
-  props: ["mostrar", "soloLectura", "test"],
+  props: ["mostrar", "soloLectura", "test", "alternativeId"],
 
   data() {
     return {
       loading: false,
       title: "Usability test",
       add: false,
-      // category: "",
-      // task: "",
-      // time: 0,
       headers: [
         {
           text: "Task Category",
@@ -112,195 +115,15 @@ export default {
         { text: "Time", align: "center", value: "time", sortable: false },
         { text: "Option", align: "center", sortable: false },
       ],
-      data: [
-        {
-          category: "Log in to the platform",
-          task: "Login to Moodle",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Log in to the platform",
-          task: "Find a course",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Log in to the platform",
-          task: "Access into the course",
-          time: 0,
-          op: undefined,
-        },
-
-        {
-          category: "Technical support access",
-          task: "Find technical support documentation (manual, FAQ)",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Technical support access",
-          task: "Fill the technical support contact form",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Technical support access",
-          task: "Switch site language",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "User account management",
-          task: "Edit your profile",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "User account management",
-          task: "Upload/Update profile photo",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Read news items in what's new",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Download a file",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Download a file from resource Directory",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Track a URL link external to the platform resources/content",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Display an embedded video",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "View a Page resource",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Fill the technical support contact form",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Switch site language",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Access to information and resources/content",
-          task: "Edit your profile",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Communication",
-          task: "Upload/Update profile photo",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Communication",
-          task: "Read news items in what's new",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Communication",
-          task: "Download a file",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Communication",
-          task: "Download a file from resource Directory",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Communication",
-          task: "Track a URL link external to the platform resources/content",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Communication",
-          task: "Display an embedded video",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Accomplishment of course activities",
-          task: "View a Page resource",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Accomplishment of course activities",
-          task: "Track a URL link external to the platform resources/content",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Accomplishment of course activities",
-          task: "Display an embedded video",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Accomplishment of course activities",
-          task: "View a Page resource",
-          time: 0,
-          op: undefined,
-        },
-        {
-          category: "Accomplishment of course activities",
-          task: "View a Page resource",
-          time: 0,
-          op: undefined,
-        },
-      ],
-      // valid: false,
-      // preguntasRules: {
-      //   category: [v => !!v || 'Required'],
-      //   task: [v => !!v || 'Required'],
-      //   time: [v => !!v || 'Required']
-      //   },
-      // categoryRules: [
-      //   v => !!v || "Category is required",
-      // ],
-      // errorMessage: "",
-      // preguntas:[{category:'',task:'', time:0}],
+      data: [],
       questions: [],
+      idTest: 4,
     };
   },
   computed: {
     localData() {
       return this.data.map((x) => {
-        return {...x, time: 0};
+        return {...x, time: 0, op: undefined};
       });
     },
   },
@@ -311,53 +134,65 @@ export default {
   created() {
     if (this.test) {
       this.title = this.test.name;
-      this.data = [];
-      this.getQuestions();
+      this.idTest = this.test.id;
     }
+    this.getQuestions();
   },
   mounted() {},
   methods: {
-    async getQuestions() {
+    async funcion(data) {
       try {
         this.loading = true;
-        const data = { method: "config.tests.data", id: this.test.id };
         const serverResponse = await serviceToken(data);
         this.loading = false;
+
         if (serverResponse.status == "error")
           alert(`${serverResponse.message}`);
-        else {
-          this.questions = serverResponse;
-          this.data = serverResponse;
-        }
+        else return serverResponse;
       } catch (error) {
         this.loading = false;
+        alert("Sorry, failed connection");
       }
+    },
+    async getQuestions() {
+      const data = { method: "config.tests.data", id: this.idTest };
+      const serverResponse = await serviceToken(data);
+      this.questions = serverResponse;
+      this.data = serverResponse;
     },
     updateTable(questionsArray) {
       for (const question of questionsArray) {
         this.data.push(question);
       }
     },
-    // async saveQuestionnaire(){
-    //   try {
-    //     this.loading = true;
-
-    //     const data = { method: "config.tests.test.set", id: this.test.id };
-
-    //     const serverResponse = await serviceAddQestions(data, this.preguntas);
-    //     this.loading = false;
-    //     // this.loading = false;
-    //     // this.category = "";
-    //     // this.task = "";
-    //     // this.time = 0;
-    //     if (serverResponse.status == "error")
-    //       alert(`${serverResponse.message}`);
-    //     else this.$emit('cancelar')
-    //   } catch (error) {
-    //     console.log(error);
-    //     this.loading = false;
-    //   }
-    // },
+    async saveAnswers() {
+      let answers = [];
+      let error = false;
+      this.localData.forEach((element) => {
+        if (element.op == undefined || element.time == 0) {
+          error = true;
+          return;
+        }
+        answers.push({ index: element.index, time: element.time, value: element.op + 1 });
+      });
+      if (error) alert("Please answer all questions and set the time.");
+      else {
+        const data = {
+          method: "evaluations.tests.eval",
+          project: this.$route.params.id,
+          alternative: this.alternativeId,
+          test: this.idTest,
+        };
+        for (const answer of answers) {
+          data.index = answer.index;
+          data.value = answer.value;
+          data.time = answer.time;
+          data.success = true;
+          await this.funcion(data);
+          this.$emit('cancelar');
+        }
+      }
+    }
   },
 };
 </script>

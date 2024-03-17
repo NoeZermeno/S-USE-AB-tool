@@ -10,7 +10,7 @@
           <v-col>
             <v-container>
               <v-row>
-                <v-col v-for="(alternative, i) in alternatives" :key="i" sm="6" md="4" lg="4">
+                <v-col v-for="(alternative, i) in alternatives" :key="i" sm="6" md="6" lg="6">
                   <v-card class="mx-auto" outlined>
                     <v-list-item three-line>
                         <v-list-item-content>
@@ -25,7 +25,7 @@
                                 </v-img>
                               </v-avatar>
                           </v-list-item-title>
-                          <v-list-item-subtitle class="biggerText">
+                          <v-list-item-subtitle>
                             URL: <a target=”_blank” :href="alternative.url">{{alternative.url}}</a>
                           </v-list-item-subtitle>
                           <v-list>
@@ -33,10 +33,10 @@
                               style="border-bottom: 1px solid black"
                               v-for="(item, index) in tests"
                               :key="index"
-                              @click="openTest(item)"
+                              @click="openTest(item, alternative.id, alternative.alias)"
                             >
                               <v-list-item-title>{{ item.name }}</v-list-item-title>
-                              <v-list-item-subtitle class="biggerText">{{ item.instructions }}</v-list-item-subtitle>
+                              <v-list-item-subtitle>{{ item.instructions }}</v-list-item-subtitle>
                             </v-list-item>
                           </v-list>
                         </v-list-item-content>
@@ -54,17 +54,26 @@
       v-if="seeSUS" 
       :mostrar="seeSUS" 
       :soloLectura="false" 
-      :test="testSus" 
+      :test="testSus"
+      :alternativeId="alternativeId"
       @cancelar="seeSUS = false, testSus = null" 
     />
-    <nps-component v-if="seeNPS" :mostrar="seeNPS" :soloLectura="false" @cancelar="seeNPS = false" />
-    <acc-component v-if="seeACC" :mostrar="seeACC" :soloLectura="false" @cancelar="seeACC = false" />
-    <questComponent v-if="seeQuest" :mostrar="seeQuest" :soloLectura="false" @cancelar="seeQuest = false" />
+    <nps-component v-if="seeNPS" :mostrar="seeNPS" :soloLectura="false" :alternativeId="alternativeId" @cancelar="seeNPS = false" />
+    <acc-component 
+      v-if="seeACC" 
+      :mostrar="seeACC" 
+      :soloLectura="false" 
+      :alternativeId="alternativeId" 
+      :alternativeName="alternativeName" 
+      @cancelar="seeACC = false" 
+    />
+    <questComponent v-if="seeQuest" :mostrar="seeQuest" :soloLectura="false" :alternativeId="alternativeId" @cancelar="seeQuest = false" />
     <seeFourComponent 
       v-if="seeFour" 
       :mostrar="seeFour" 
       :soloLectura="false" 
       :test="test"
+      :alternativeId="alternativeId"
       @cancelar="seeFour = false, test = null"
     />
   </div>
@@ -100,6 +109,8 @@ export default {
       seeQuest: false,
       test: null,
       testSus: null,
+      alternativeId: null,
+      alternativeName: "",
     };
   },
   mounted() {
@@ -135,7 +146,9 @@ export default {
       };
       this.tests = await this.funcion(data);
     },
-    async openTest(item){
+    async openTest(item, alternativeId, alternativeName){
+      this.alternativeId = alternativeId;
+      this.alternativeName = alternativeName;
       if(item.id == 1) this.seeSUS = true;
       else if(item.id == 2) this.seeNPS = true;
       else if(item.id == 3) this.seeACC = true;

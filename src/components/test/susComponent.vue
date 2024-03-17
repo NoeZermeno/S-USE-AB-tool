@@ -55,8 +55,15 @@
             </v-data-table>
           </v-card>
         </v-row>
+        <v-row v-if="!soloLectura" justify="end">
+          <v-card-actions>
+            <v-btn small dark outlined color="#19A08D" class="ml-1" @click="$emit('cancelar')">Cancel
+            </v-btn>
+            <v-btn @click="saveAnswers()" small color="#19A08D" :disabled="loading" :loading="loading"> save </v-btn>
+          </v-card-actions>
+        </v-row>
       </v-container>
-      <v-container v-if="test">
+      <v-container v-if="test && soloLectura">
         <questComponent
           v-if="test"
           :test="test"
@@ -71,7 +78,7 @@ import { serviceToken } from "../../helpers/service.service";
 import questComponent from "./questionQuestionnaire.vue";
 export default {
   name: "dataView",
-  props: ["mostrar", "soloLectura", "test"],
+  props: ["mostrar", "soloLectura", "test", "alternativeId"],
   data() {
     return {
       loading: false,
@@ -85,64 +92,9 @@ export default {
         },
         { text: "Responses", align: "center", value: "op", sortable: false },
       ],
-      data: [
-        {
-          number: "1",
-          question: "I think that I would like to use this sytem frequently.",
-          op: undefined,
-        },
-        {
-          number: "2",
-          question: "I found the system unnecessarily complex.",
-          op: undefined,
-        },
-        {
-          number: "3",
-          question: "I thought the system was easy to use.",
-          op: undefined,
-        },
-        {
-          number: "4",
-          question:
-            " I think that I would need the support of a technical person to be able to use this system.",
-          op: undefined,
-        },
-        {
-          number: "5",
-          question:
-            "I found the various functions in this system were well integrated.",
-          op: undefined,
-        },
-        {
-          number: "6",
-          question:
-            "I thought there was too much inconsistency in this system.",
-          op: undefined,
-        },
-        {
-          number: "7",
-          question:
-            "I would imagine that most people would learn to use this system very quickly.",
-          op: undefined,
-        },
-        {
-          number: "8",
-          question: "I found the system very awkward to use.",
-          op: undefined,
-        },
-        {
-          number: "9",
-          question: "I felt very confident using the system.",
-          op: undefined,
-        },
-        {
-          number: "10",
-          question:
-            "I needed to learn a lot of things before I could get going with this system.",
-          op: undefined,
-        },
-      ],
+      data: [],
       title: "SUS Questionnaire",
+      idTest: 1,
     };
   },
   computed: {
@@ -158,30 +110,64 @@ export default {
   created() {
     if (this.test) {
       this.title = this.test.name;
-      this.data = [];
-      this.getQuestions();
+      this.idTest = this.test.id;
     }
+    this.getQuestions();
   },
   mounted() {},
   methods: {
-    async getQuestions() {
+    async funcion(data) {
       try {
         this.loading = true;
-        const data = { method: "config.tests.data", id: this.test.id };
         const serverResponse = await serviceToken(data);
         this.loading = false;
+
         if (serverResponse.status == "error")
           alert(`${serverResponse.message}`);
-        else {
-          this.questions = serverResponse;
-          this.data = serverResponse;
-        }
+        else return serverResponse;
       } catch (error) {
         this.loading = false;
+        alert("Sorry, failed connection");
       }
+    },
+    async getQuestions() {
+      const data = { method: "config.tests.data", id: this.idTest};
+      const serverResponse = await this.funcion(data);
+      this.questions = serverResponse;
+      this.data = serverResponse;
     },
     updateTable(questionsArray) {
       this.data = questionsArray;
+    },
+    async saveAnswers() {
+      let answers = [];
+      let error = false;
+      this.localData.forEach((element) => {
+        if (element.op == undefined) {
+          error = true;
+          return;
+        }
+        answers.push({ question: element.question, value: element.op + 1, index: element.index });
+      });
+      if (error) alert("Please answer all questions");
+      else {
+        const data = {
+          method: "evaluations.tests.eval",
+          project: this.$route.params.id,
+          alternative: this.alternativeId,
+          test: this.idTest,
+          // index: "",
+          // time: "optional",
+          // success: "optional",
+          // value: "",
+        };
+        for (const answer of answers) {
+          data.index = answer.index;
+          data.value = answer.value;
+          await this.funcion(data);
+          this.$emit('cancelar');
+        }
+      }
     },
   },
 };
